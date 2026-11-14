@@ -1,182 +1,42 @@
 <!DOCTYPE html>
 <html lang="mr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0f172a">
-  <title>घराचे लोकेशन | माऊली कटके कार्यालय</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Hind Vadodara', sans-serif;
-      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
-    }
-
-    .card {
-      width: 100%;
-      max-width: 420px;
-      padding: 32px 26px;
-      border-radius: 22px;
-      background: rgba(255, 255, 255, 0.98);
-      text-align: center;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.30);
-      animation: fadeIn .45s ease;
-    }
-
-    .icon {
-      width: 72px;
-      height: 72px;
-      margin: 0 auto 18px;
-      border-radius: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #eef2ff;
-      font-size: 34px;
-    }
-
-    h1 {
-      margin: 0 0 22px;
-      color: #0f172a;
-      font-size: 23px;
-      font-weight: 700;
-    }
-
-    button {
-      width: 100%;
-      min-height: 54px;
-      padding: 13px 16px;
-      border: 0;
-      border-radius: 12px;
-      font: inherit;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform .2s ease, opacity .2s ease;
-    }
-
-    button:active:not(:disabled) { transform: scale(.98); }
-    button:disabled { opacity: .65; cursor: wait; }
-
-    #captureBtn {
-      color: #fff;
-      background: linear-gradient(135deg, #4f46e5, #9333ea);
-      box-shadow: 0 8px 20px rgba(99, 102, 241, .25);
-    }
-
-    #skipBtn {
-      margin-top: 12px;
-      color: #334155;
-      background: #f1f5f9;
-    }
-
-    #status {
-      min-height: 24px;
-      margin-top: 18px;
-      color: #475569;
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 1.6;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation: none !important; transition: none !important; }
-    }
-  </style>
-</head>
-<body>
-  <main class="card">
-    <div class="icon" aria-hidden="true">📍</div>
-    <h1>घराचे लोकेशन</h1>
-
-    <button id="captureBtn" type="button">📍 लोकेशन सुरू करा</button>
-    <button id="skipBtn" type="button">लोकेशनशिवाय पुढे जा</button>
-
-    <div id="status" role="status" aria-live="polite"></div>
-  </main>
-
-  <script>
-    // सर्वेक्षणाचा मुख्य फॉर्म
-    const FORM_URL = "https://office.maulikatke.in/form/survey";
-
-    // QR कोडमधील village_code, enumerator_code आणि इतर parameters जतन करा.
-    const params = new URLSearchParams(window.location.search);
-
-    // URL मध्ये आधीपासून असलेली लोकेशन लिंक वापरू नका.
-    params.delete("google_maps_url");
-
-    const captureBtn = document.getElementById("captureBtn");
-    const skipBtn = document.getElementById("skipBtn");
-    const statusText = document.getElementById("status");
-
-    function goToSurvey() {
-      const target = new URL(FORM_URL);
-      target.search = params.toString();
-      window.location.assign(target.toString());
-    }
-
-    captureBtn.addEventListener("click", () => {
-      if (!navigator.geolocation) {
-        statusText.textContent = "या ब्राउझरमध्ये लोकेशन सुविधा उपलब्ध नाही.";
-        return;
-      }
-
-      captureBtn.disabled = true;
-      captureBtn.textContent = "लोकेशन मिळवत आहोत...";
-      statusText.textContent = "कृपया लोकेशनची परवानगी द्या.";
-
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
-          const googleMapsLink =
-            "https://www.google.com/maps/search/?api=1&query=" +
-            encodeURIComponent(latitude + "," + longitude);
-
-          params.set("google_maps_url", googleMapsLink);
-          statusText.textContent = "लोकेशन मिळाले. सर्वेक्षण सुरू होत आहे...";
-          captureBtn.textContent = "लोकेशन मिळाले ✓";
-
-          window.setTimeout(goToSurvey, 900);
-        },
-        (error) => {
-          const messages = {
-            1: "लोकेशनची परवानगी नाकारली. कृपया ब्राउझरमध्ये परवानगी द्या.",
-            2: "लोकेशन मिळू शकले नाही. फोनचे लोकेशन सुरू करून पुन्हा प्रयत्न करा.",
-            3: "लोकेशन मिळवण्यास वेळ लागला. कृपया पुन्हा प्रयत्न करा."
-          };
-
-          statusText.textContent = messages[error.code] || "लोकेशन मिळू शकले नाही. पुन्हा प्रयत्न करा.";
-          captureBtn.disabled = false;
-          captureBtn.textContent = "📍 पुन्हा प्रयत्न करा";
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 30000,
-          maximumAge: 0
-        }
-      );
-    });
-
-    skipBtn.addEventListener("click", () => {
-      params.delete("google_maps_url");
-      goToSurvey();
-    });
-  </script>
-</body>
-</html>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0f172a">
+<title>घराचे लोकेशन | माऊली कटके कार्यालय</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:18px;display:flex;align-items:center;justify-content:center;font-family:'Hind Vadodara',sans-serif;background:linear-gradient(135deg,#0f172a,#1e1b4b 50%,#0f172a)}.card{width:100%;max-width:440px;padding:30px 24px;border-radius:22px;background:#fff;text-align:center;box-shadow:0 25px 60px #0005}.icon{width:70px;height:70px;margin:0 auto 16px;border-radius:20px;display:grid;place-items:center;background:#eef2ff;font-size:34px}h1{margin:0 0 10px;color:#0f172a;font-size:23px}.intro{color:#475569;line-height:1.65;margin:0 0 20px}.notice{display:none;text-align:left;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;padding:12px;border-radius:12px;margin:14px 0;font-size:14px}button{width:100%;min-height:52px;padding:12px 14px;border:0;border-radius:12px;font:inherit;font-size:16px;font-weight:700;cursor:pointer}button:disabled{opacity:.6;cursor:wait}#captureBtn{color:#fff;background:linear-gradient(135deg,#4f46e5,#9333ea)}#continueBtn{display:none;margin-top:12px;color:#fff;background:#0f766e}#status{min-height:24px;margin-top:16px;color:#475569;font-size:14px;line-height:1.6}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head>
+<body><main class="card"><div class="icon" aria-hidden="true">📍</div><h1>घराचे लोकेशन नोंदवा</h1><p class="intro">कृपया सर्वेक्षण सुरू करण्यापूर्वी घराजवळ उभे राहून लोकेशन मिळवा. लोकेशन मिळाले नाही तरी कारण नोंदवून सर्वेक्षण सुरू करता येईल.</p>
+<button id="captureBtn" type="button">📍 लोकेशन मिळवा</button><div id="notice" class="notice" role="alert"></div><button id="continueBtn" type="button">कारण नोंदवून पुढे जा</button><div id="status" role="status" aria-live="polite"></div></main>
+<script>
+'use strict';
+const FORM_URL='https://office.maulikatke.in/form/survey';
+const params=new URLSearchParams(window.location.search);
+const token=params.get('assignment_token')||'';
+const captureBtn=document.getElementById('captureBtn'),continueBtn=document.getElementById('continueBtn'),statusText=document.getElementById('status'),notice=document.getElementById('notice');
+let captureState=null;
+function showFailure(message){notice.textContent=message;notice.style.display='block';continueBtn.style.display='block';captureBtn.disabled=false;captureBtn.textContent='📍 पुन्हा प्रयत्न करा';statusText.textContent='GPS मिळाले नाही. पुन्हा प्रयत्न करा किंवा कारण नोंदवून पुढे जा.';}
+function goToForm(){
+ if(!token || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(token)){statusText.textContent='हा QR कोड अपूर्ण किंवा चुकीचा आहे. कृपया कार्यालयाकडून योग्य QR कोड घ्या.';return;}
+ const target=new URL(FORM_URL);target.searchParams.set('assignment_token',token);target.searchParams.set('location_capture_status',captureState.status);target.searchParams.set('location_failure_reason',captureState.reason||'');target.searchParams.set('google_maps_url',captureState.mapsUrl||'');window.location.assign(target.toString());
+}
+captureBtn.addEventListener('click',()=>{
+ if(!navigator.geolocation){showFailure('या ब्राउझरमध्ये GPS सुविधा उपलब्ध नाही.');return;}
+ captureBtn.disabled=true;captureBtn.textContent='लोकेशन मिळवत आहोत...';continueBtn.style.display='none';notice.style.display='none';statusText.textContent='कृपया फोनची Location परवानगी द्या आणि थोडा वेळ थांबा.';
+ navigator.geolocation.getCurrentPosition(pos=>{
+  const lat=pos.coords.latitude,lon=pos.coords.longitude;
+  if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180){showFailure('फोनकडून चुकीचे GPS coordinates मिळाले.');return;}
+  captureState={status:'CAPTURED',reason:'',mapsUrl:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(lat+','+lon)};
+  statusText.textContent='लोकेशन यशस्वीरीत्या मिळाले. फॉर्म उघडत आहे...';captureBtn.textContent='लोकेशन मिळाले ✓';setTimeout(goToForm,700);
+ },err=>{
+  const msg={1:'लोकेशनची परवानगी नाकारली गेली.',2:'फोनचे लोकेशन उपलब्ध नाही.',3:'GPS मिळवण्यासाठी वेळ संपला.'};showFailure(msg[err.code]||'लोकेशन मिळवता आले नाही.');
+ },{enableHighAccuracy:true,timeout:30000,maximumAge:0});
+});
+continueBtn.addEventListener('click',()=>{
+ const reason=window.prompt('GPS लोकेशन का मिळाले नाही? कारण लिहा (किमान ५ अक्षरे). उदाहरण: नागरिकांनी परवानगी दिली नाही / घरात GPS सिग्नल नाही.');
+ if(reason===null)return;const clean=reason.replace(/[\u0000-\u001f\u007f]/g,' ').trim();if(clean.length<5){statusText.textContent='कृपया किमान ५ अक्षरांचे कारण लिहा.';return;}if(clean.length>300){statusText.textContent='कारण ३०० अक्षरांपेक्षा कमी ठेवा.';return;}
+ captureState={status:'NOT_CAPTURED',reason:clean,mapsUrl:''};statusText.textContent='कारण नोंदले. सर्वेक्षण फॉर्म उघडत आहे...';goToForm();
+});
+</script></body></html>
