@@ -247,6 +247,45 @@
     const MEMBER_PAGE_URL = new URL('member.html', window.location.href).toString();
     const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
     const FAMILY_CODE_RE = /^FAM-\d{7,}$/i;
+    // Reuse one opaque request ID within this browser tab until the server confirms a save.
+    // This allows a safe retry after a network timeout without creating a second household.
+    const SUBMISSION_KEY_STORAGE_PREFIX = 'mla-household-submit-v1:';
+    let volatileSubmissionKey = null;
+
+    function createSubmissionUuid() {
+      if (!window.crypto || typeof window.crypto.getRandomValues !== 'function') {
+        throw new Error('Secure random ID generation is unavailable in this browser.');
+      }
+      const bytes = new Uint8Array(16);
+      window.crypto.getRandomValues(bytes);
+      bytes[6] = (bytes[6] & 0x0f) | 0x40;
+      bytes[8] = (bytes[8] & 0x3f) | 0x80;
+      const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
+      return hex.slice(0,8) + '-' + hex.slice(8,12) + '-' + hex.slice(12,16) + '-' + hex.slice(16,20) + '-' + hex.slice(20);
+    }
+
+    function getSubmissionKey() {
+      if (volatileSubmissionKey && UUID_RE.test(volatileSubmissionKey)) return volatileSubmissionKey;
+      const storageKey = SUBMISSION_KEY_STORAGE_PREFIX + assignmentToken;
+      try {
+        const saved = sessionStorage.getItem(storageKey);
+        if (saved && UUID_RE.test(saved)) {
+          volatileSubmissionKey = saved.toLowerCase();
+          return volatileSubmissionKey;
+        }
+      } catch (_) {
+        // Continue with an in-memory key if browser storage is unavailable.
+      }
+      volatileSubmissionKey = createSubmissionUuid();
+      try { sessionStorage.setItem(storageKey, volatileSubmissionKey); } catch (_) {}
+      return volatileSubmissionKey;
+    }
+
+    function clearSubmissionKeyAfterConfirmedSave() {
+      const storageKey = SUBMISSION_KEY_STORAGE_PREFIX + assignmentToken;
+      try { sessionStorage.removeItem(storageKey); } catch (_) {}
+      // Keep the in-memory key for the current page in case navigation is interrupted.
+    }
     const MAPS_RE = /^https:\/\/([^/?#]+)\/maps\/search\/\?api=1&query=(-?\d+(?:\.\d+)?)(?:%2C|,)(-?\d+(?:\.\d+)?)$/i;
 
     const $ = (id) => document.getElementById(id);
@@ -390,6 +429,7 @@
 
     async function submitHousehold(values) {
       const payload = {
+        submission_key: getSubmissionKey(),
         assignment_token: assignmentToken,
         location_capture_status: locationStatus,
         google_maps_url: googleMapsUrl || null,
@@ -439,6 +479,7 @@
         next.searchParams.set('assignment_token', assignmentToken);
         $('serverMessage').textContent = 'कुटुंबाची नोंद यशस्वी झाली. सदस्य नोंदणी उघडत आहे…';
         $('serverMessage').hidden = false;
+        clearSubmissionKeyAfterConfirmedSave();
         window.location.replace(next.toString());
       } catch (error) {
         // A network failure can happen after the server has already saved the household.
