@@ -2,41 +2,381 @@
 <html lang="mr">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0f172a">
+<meta name="robots" content="noindex,nofollow">
 <title>घराचे लोकेशन | माऊली कटके कार्यालय</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:18px;display:flex;align-items:center;justify-content:center;font-family:'Hind Vadodara',sans-serif;background:linear-gradient(135deg,#0f172a,#1e1b4b 50%,#0f172a)}.card{width:100%;max-width:440px;padding:30px 24px;border-radius:22px;background:#fff;text-align:center;box-shadow:0 25px 60px #0005}.icon{width:70px;height:70px;margin:0 auto 16px;border-radius:20px;display:grid;place-items:center;background:#eef2ff;font-size:34px}h1{margin:0 0 10px;color:#0f172a;font-size:23px}.intro{color:#475569;line-height:1.65;margin:0 0 20px}.notice{display:none;text-align:left;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;padding:12px;border-radius:12px;margin:14px 0;font-size:14px}button{width:100%;min-height:52px;padding:12px 14px;border:0;border-radius:12px;font:inherit;font-size:16px;font-weight:700;cursor:pointer}button:disabled{opacity:.6;cursor:wait}#captureBtn{color:#fff;background:linear-gradient(135deg,#4f46e5,#9333ea)}#continueBtn{display:none;margin-top:12px;color:#fff;background:#0f766e}#status{min-height:24px;margin-top:16px;color:#475569;font-size:14px;line-height:1.6}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html{background:#0f172a}
+body{margin:0;min-height:100vh;padding:18px;display:flex;align-items:flex-start;justify-content:center;font-family:'Hind Vadodara','Noto Sans Devanagari',sans-serif;background:linear-gradient(135deg,#0f172a,#1e1b4b 50%,#0f172a);color:#0f172a}
+.card{width:100%;max-width:480px;margin:auto 0;padding:30px 22px 26px;border-radius:22px;background:#fff;text-align:center;box-shadow:0 25px 60px #0005}
+.icon{width:70px;height:70px;margin:0 auto 16px;border-radius:20px;display:grid;place-items:center;background:#eef2ff;font-size:34px}
+h1{margin:0 0 8px;color:#0f172a;font-size:23px}
+.intro{color:#475569;line-height:1.6;margin:0 0 20px}
+button{width:100%;min-height:52px;padding:12px 14px;border:0;border-radius:12px;font:inherit;font-size:16px;font-weight:700;cursor:pointer}
+button:disabled{opacity:.6;cursor:not-allowed}
+button:focus-visible,a:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid #818cf8;outline-offset:2px}
+#gpsBtn{color:#fff;background:linear-gradient(135deg,#4f46e5,#9333ea)}
+#mapBtn{color:#3730a3;background:#eef2ff}
+#goBtn{margin-top:12px;color:#fff;background:#0f766e}
+#skipBtn{margin-top:12px;color:#fff;background:#0f766e}
+.or{display:flex;align-items:center;gap:12px;margin:16px 0;color:#94a3b8;font-size:14px}
+.or::before,.or::after{content:"";flex:1;height:1px;background:#e2e8f0}
+#status{min-height:22px;margin-top:12px;color:#475569;font-size:14px;line-height:1.6}
+#status:empty,.msg:empty{display:none}
+#status.bad{color:#be123c;font-weight:600}
+.notice{display:none;text-align:left;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;padding:11px 12px;border-radius:12px;margin:12px 0 0;font-size:14px;line-height:1.5}
+.notice.show{display:block}
+
+#mapWrap{margin-top:14px;text-align:left}
+#map{height:min(55vh,360px);min-height:260px;border-radius:16px;border:1px solid #e2e8f0;isolation:isolate;background:#e5e7eb}
+.leaflet-container{font-family:inherit}
+.pin{background:none;border:0;filter:drop-shadow(0 3px 3px rgba(0,0,0,.35))}
+.layers{display:flex;gap:8px;margin-top:10px}
+.layers .chip{flex:1;min-height:44px;padding:8px;border-radius:99px;background:#f1f5f9;color:#334155;font-size:15px;font-weight:600}
+.layers .chip[aria-pressed="true"]{background:#4f46e5;color:#fff}
+.hint{margin:8px 2px 0;color:#64748b;font-size:13px;line-height:1.5}
+
+label.l{display:block;margin:0 0 8px;text-align:left;font-weight:600;font-size:15px;color:#334155}
+.linkRow{display:flex;gap:8px;align-items:stretch}
+textarea{flex:1;min-width:0;min-height:76px;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:12px;background:#f8fafc;color:#0f172a;font:inherit;font-size:16px;resize:vertical}
+textarea:focus{background:#fff;border-color:#6366f1;box-shadow:0 0 0 4px rgba(99,102,241,.15);outline:none}
+#pasteBtn{width:auto;min-width:84px;padding:8px 10px;font-size:14px;color:#3730a3;background:#eef2ff;border-radius:12px}
+.msg{min-height:20px;margin:8px 2px 0;text-align:left;font-size:14px;line-height:1.5;font-weight:600}
+.msg.ok{color:#047857}.msg.bad{color:#be123c}
+.small{margin:6px 2px 0;text-align:left;color:#64748b;font-size:13px;line-height:1.5}
+.small a,.sumlink{color:#4338ca;font-weight:600}
+
+#summary{margin-top:18px;padding:14px;border-radius:14px;background:#ecfdf5;border:1px solid #a7f3d0;text-align:left}
+#summary b{display:block;color:#065f46;font-size:16px}
+#sumCoords{margin-top:2px;color:#047857;font-size:14px;word-break:break-word}
+.sumlink{display:inline-block;margin-top:6px;font-size:14px}
+
+#skipBox{margin-top:16px;text-align:left}
+#skipBox p{margin:0 0 10px;font-weight:600;font-size:15px;color:#475569}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.rchip{width:auto;min-height:48px;padding:10px 16px;border-radius:99px;border:1.5px solid #cbd5e1;background:#fff;color:#0f172a;font-size:15px;font-weight:500}
+.rchip.on{background:#4f46e5;border-color:#4f46e5;color:#fff;font-weight:600}
+#otherTxt{display:none;width:100%;margin-top:10px;padding:12px 14px;border:1.5px solid #cbd5e1;border-radius:12px;background:#f8fafc;font:inherit;font-size:16px;min-height:50px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style></head>
-<body><main class="card"><div class="icon" aria-hidden="true">📍</div><h1>घराचे लोकेशन नोंदवा</h1><p class="intro">कृपया सर्वेक्षण सुरू करण्यापूर्वी घराजवळ उभे राहून लोकेशन मिळवा. लोकेशन मिळाले नाही तरी कारण नोंदवून सर्वेक्षण सुरू करता येईल.</p>
-<button id="captureBtn" type="button">📍 लोकेशन मिळवा</button><div id="notice" class="notice" role="alert"></div><button id="continueBtn" type="button">कारण नोंदवून पुढे जा</button><div id="status" role="status" aria-live="polite"></div></main>
+<body><main class="card">
+  <div class="icon" aria-hidden="true">📍</div>
+  <h1>घराचे लोकेशन नोंदवा</h1>
+  <p class="intro">घराजवळ उभे राहून लोकेशन मिळवा, किंवा नकाशावर घराचा पिन लावा.</p>
+
+  <section id="blockGps">
+    <button id="gpsBtn" type="button">📍 माझे लोकेशन मिळवा</button>
+    <div id="status" role="status" aria-live="polite"></div>
+  </section>
+
+  <div class="or">किंवा</div>
+
+  <section id="blockMap">
+    <button id="mapBtn" type="button">🗺️ नकाशावर घर निवडा</button>
+    <div id="mapWrap" hidden>
+      <div id="map" role="application" aria-label="घराचा पिन निवडण्यासाठी नकाशा"></div>
+      <div class="layers" role="group" aria-label="नकाशाचा प्रकार">
+        <button type="button" class="chip" id="layMap" aria-pressed="true">नकाशा</button>
+        <button type="button" class="chip" id="laySat" aria-pressed="false">उपग्रह</button>
+      </div>
+      <p class="hint">घरावर टॅप करा किंवा पिन ओढून घरावर ठेवा.</p>
+    </div>
+  </section>
+
+  <div class="or">किंवा</div>
+
+  <section id="blockLink">
+    <label class="l" for="linkTxt">Google Maps ची लिंक paste करा</label>
+    <div class="linkRow">
+      <textarea id="linkTxt" rows="3" placeholder="https://maps.app.goo.gl/…" autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>
+      <button id="pasteBtn" type="button" hidden>📋<br>Paste</button>
+    </div>
+    <div id="linkMsg" class="msg" role="status" aria-live="polite"></div>
+    <p class="small">Google Maps मध्ये घर दाबून धरा → Share → Copy. <a href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer">Google Maps उघडा ↗</a></p>
+  </section>
+
+  <div id="notice" class="notice" role="alert"></div>
+
+  <section id="summary" hidden aria-live="polite">
+    <b id="sumTitle"></b>
+    <div id="sumCoords"></div>
+    <a id="sumLink" class="sumlink" target="_blank" rel="noopener noreferrer" href="#">Google Maps मध्ये तपासा ↗</a>
+  </section>
+  <button id="goBtn" type="button" hidden>✓ हेच माझे घर — पुढे जा</button>
+
+  <section id="skipBox" hidden>
+    <p>लोकेशन का मिळाले नाही?</p>
+    <div class="chips" id="reasonChips"></div>
+    <input id="otherTxt" type="text" placeholder="कारण लिहा (किमान ५ अक्षरे)" maxlength="300" autocomplete="off">
+    <button id="skipBtn" type="button" disabled>कारण नोंदवून पुढे जा</button>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 'use strict';
-const FORM_URL='https://office.maulikatke.in/form/survey';
-const params=new URLSearchParams(window.location.search);
-const token=params.get('assignment_token')||'';
-const captureBtn=document.getElementById('captureBtn'),continueBtn=document.getElementById('continueBtn'),statusText=document.getElementById('status'),notice=document.getElementById('notice');
-let captureState=null;
-function showFailure(message){notice.textContent=message;notice.style.display='block';continueBtn.style.display='block';captureBtn.disabled=false;captureBtn.textContent='📍 पुन्हा प्रयत्न करा';statusText.textContent='GPS मिळाले नाही. पुन्हा प्रयत्न करा किंवा कारण नोंदवून पुढे जा.';}
-function goToForm(){
- if(!token || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(token)){statusText.textContent='हा QR कोड अपूर्ण किंवा चुकीचा आहे. कृपया कार्यालयाकडून योग्य QR कोड घ्या.';return;}
- const target=new URL(FORM_URL);target.searchParams.set('assignment_token',token);target.searchParams.set('location_capture_status',captureState.status);target.searchParams.set('location_failure_reason',captureState.reason||'');target.searchParams.set('google_maps_url',captureState.mapsUrl||'');window.location.assign(target.toString());
+/* TODO: नव्या कुटुंब-नोंदणी फॉर्मचा पत्ता येथे लिहा (जुना n8n /form/survey बंद केल्यावर तो चालणार नाही) */
+const FORM_URL = 'https://survey.maulikatke.in/household.html';
+const DEFAULT_CENTER = [18.68, 74.15], DEFAULT_ZOOM = 10;   /* हवेली–शिरूर परिसर */
+const REASONS = ['परवानगी मिळाली नाही', 'GPS सिग्नल नाही', 'घरच्यांनी नकार दिला', 'इतर'];
+const TOKEN_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+/* PURE:START  (नकाशा/लिंक नियम; DOM शिवाय चाचणी करता येतात) */
+const DEVA = '०१२३४५६७८९';
+const toAscii = (s) => String(s == null ? '' : s).replace(/[०-९]/g, (d) => String(DEVA.indexOf(d)));
+const clean = (s) => String(s == null ? '' : s).replace(/[\u0000-\u001F\u007F]/g, ' ').replace(/\s+/g, ' ').trim();
+const fmt = (n, d) => Number(n).toFixed(d == null ? 6 : d);
+const validPair = (lat, lon) => Number.isFinite(lat) && Number.isFinite(lon) && Math.abs(lat) <= 90 && Math.abs(lon) <= 180;
+const inIndia = (lat, lon) => validPair(lat, lon) && lat >= 6 && lat <= 38 && lon >= 68 && lon <= 98;
+const mapsUrl = (lat, lon) => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(fmt(lat) + ',' + fmt(lon));
+const safeDecode = (s) => { try { return decodeURIComponent(s); } catch (e) { return s; } };
+
+function classifyHost(u) {
+  if (!/^https?:$/.test(u.protocol) || u.username || u.password || u.port) return null;
+  const h = u.hostname.toLowerCase(), p = u.pathname;
+  if (h === 'maps.app.goo.gl') return 'short';
+  if (h === 'goo.gl' && /^\/maps(\/|$)/.test(p)) return 'short';
+  if (/^maps\.google\.(com|co\.in)$/.test(h)) return 'long';
+  if (/^(www\.)?google\.(com|co\.in)$/.test(h) && /^\/maps(\/|$)/.test(p)) return 'long';
+  return null;
 }
-captureBtn.addEventListener('click',()=>{
- if(!navigator.geolocation){showFailure('या ब्राउझरमध्ये GPS सुविधा उपलब्ध नाही.');return;}
- captureBtn.disabled=true;captureBtn.textContent='लोकेशन मिळवत आहोत...';continueBtn.style.display='none';notice.style.display='none';statusText.textContent='कृपया फोनची Location परवानगी द्या आणि थोडा वेळ थांबा.';
- navigator.geolocation.getCurrentPosition(pos=>{
-  const lat=pos.coords.latitude,lon=pos.coords.longitude;
-  if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180){showFailure('फोनकडून चुकीचे GPS coordinates मिळाले.');return;}
-  captureState={status:'CAPTURED',reason:'',mapsUrl:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(lat+','+lon)};
-  statusText.textContent='लोकेशन यशस्वीरीत्या मिळाले. फॉर्म उघडत आहे...';captureBtn.textContent='लोकेशन मिळाले ✓';setTimeout(goToForm,700);
- },err=>{
-  const msg={1:'लोकेशनची परवानगी नाकारली गेली.',2:'फोनचे लोकेशन उपलब्ध नाही.',3:'GPS मिळवण्यासाठी वेळ संपला.'};showFailure(msg[err.code]||'लोकेशन मिळवता आले नाही.');
- },{enableHighAccuracy:true,timeout:30000,maximumAge:0});
+function extractUrl(text) {
+  let m = text.match(/https?:\/\/[^\s<>"'\u2018\u2019\u201C\u201D]+/i);
+  if (m) return m[0].replace(/[).,;]+$/, '');
+  m = text.match(/(?:www\.google\.[a-z.]+\/maps|maps\.google\.[a-z.]+|google\.[a-z.]+\/maps|maps\.app\.goo\.gl|goo\.gl\/maps)[^\s<>"']*/i);
+  return m ? 'https://' + m[0].replace(/[).,;]+$/, '') : null;
+}
+function coordsFromUrl(u) {
+  const full = safeDecode(u.pathname + u.search + u.hash);
+  let m = full.match(/!3d(-?\d+(?:\.\d+)?)!4d(-?\d+(?:\.\d+)?)/);              /* ठिकाणाचा खरा पिन */
+  if (!m) {
+    for (const key of ['q', 'query', 'll', 'destination', 'daddr', 'center', 'sll', 'viewpoint']) {
+      const v = u.searchParams.get(key);
+      const mm = v && v.match(/^\s*(?:loc:)?\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*$/);
+      if (mm) { m = mm; break; }
+    }
+  }
+  if (!m) m = full.match(/\/place\/\s*(-?\d+(?:\.\d+)?)\s*,\s*\+?(-?\d+(?:\.\d+)?)(?:[\/@?]|$)/);
+  if (!m) m = full.match(/@(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/);              /* नकाशाचा मध्य (शेवटचा पर्याय) */
+  return m ? { lat: parseFloat(m[1]), lon: parseFloat(m[2]) } : null;
+}
+const BARE = /^(?:loc:)?\s*\(?\s*(-?\d{1,3}(?:\.\d+)?)\s*[, ]\s*(-?\d{1,3}(?:\.\d+)?)\s*\)?$/;
+function coordsResult(lat, lon) {
+  if (!inIndia(lat, lon)) return { kind: 'error', msg: 'हे ठिकाण भारताबाहेर दिसते. लिंक तपासा.' };
+  return { kind: 'coords', lat, lon };
+}
+/* परिणाम: {kind:'empty'} | {kind:'coords',lat,lon} | {kind:'link',url} | {kind:'error',msg} */
+function parseLocationInput(raw) {
+  const text = toAscii(clean(raw));
+  if (!text) return { kind: 'empty' };
+  const b = text.match(BARE);
+  if (b) return coordsResult(parseFloat(b[1]), parseFloat(b[2]));
+  const urlStr = extractUrl(text);
+  if (!urlStr) return { kind: 'error', msg: 'Google Maps ची लिंक paste करा.' };
+  let u; try { u = new URL(urlStr); } catch (e) { return { kind: 'error', msg: 'लिंक चुकीची आहे.' }; }
+  const type = classifyHost(u);
+  if (!type) return { kind: 'error', msg: 'ही Google Maps ची लिंक नाही.' };
+  const c = coordsFromUrl(u);
+  if (c) return coordsResult(c.lat, c.lon);
+  if (type === 'short') { u.protocol = 'https:'; return { kind: 'link', url: u.href }; }
+  return { kind: 'error', msg: 'लिंकमध्ये पिन दिसत नाही. घराचा पिन लावून Share लिंक द्या.' };
+}
+/* PURE:END */
+
+const $ = (id) => document.getElementById(id);
+const token = (new URLSearchParams(window.location.search).get('assignment_token') || '').trim();
+const tokenOk = TOKEN_RE.test(token);
+const loc = { lat: null, lon: null, url: '', source: '', accuracy: null };
+let gpsFailed = false, reason = '', busy = false;
+let map = null, marker = null, circle = null, layers = {};
+
+/* ---------- UI ---------- */
+function say(t, bad) { $('status').textContent = t; $('status').className = bad ? 'bad' : ''; }
+function note(t) { const n = $('notice'); n.textContent = t || ''; n.classList.toggle('show', !!t); }
+function linkMsg(t, kind) { const m = $('linkMsg'); m.textContent = t || ''; m.className = 'msg' + (kind ? ' ' + kind : ''); }
+function clearPaste() { $('linkTxt').value = ''; linkMsg(''); }
+const SRC = { gps: 'GPS वरून', pin: 'नकाशावर निवडले', link: 'लिंकवरून' };
+function render() {
+  const has = !!loc.url;
+  $('summary').hidden = !has; $('goBtn').hidden = !has;
+  $('skipBox').hidden = !(gpsFailed && !has);
+  if (!has) return;
+  $('sumTitle').textContent = '📍 लोकेशन निवडले · ' + (SRC[loc.source] || '');
+  $('sumCoords').textContent = loc.lat !== null
+    ? fmt(loc.lat, 5) + ', ' + fmt(loc.lon, 5) + (loc.accuracy ? ' · ±' + loc.accuracy + ' मी' : '')
+    : 'लिंक जतन केली जाईल';
+  $('sumLink').href = loc.url;
+}
+function setLoc(o) { Object.assign(loc, { lat: null, lon: null, url: '', source: '', accuracy: null }, o || {}); render(); }
+function reveal() { try { $('summary').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) { /* ignore */ } }
+
+/* ---------- नकाशा ---------- */
+function ensureMap() {
+  if (map) return true;
+  if (typeof L === 'undefined') return false;
+  map = L.map('map', { zoomControl: true }).setView(DEFAULT_CENTER, DEFAULT_ZOOM);
+  map.attributionControl.setPrefix(false);
+  layers.map = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 20, maxNativeZoom: 19, attribution: '© OpenStreetMap' });
+  layers.sat = L.layerGroup([
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 20, maxNativeZoom: 18, attribution: 'Esri, Maxar, Earthstar Geographics' }),
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', { maxZoom: 20, maxNativeZoom: 18 })
+  ]);
+  layers.map.addTo(map);
+  map.on('click', (e) => userPin(e.latlng.lat, e.latlng.lng, false));
+  return true;
+}
+function showMap(quiet) {
+  $('mapWrap').hidden = false; $('mapBtn').hidden = true;
+  if (!ensureMap()) { $('mapWrap').hidden = true; $('mapBtn').hidden = false; if (!quiet) note('नकाशा उघडला नाही. इंटरनेट तपासा किंवा लिंक paste करा.'); return false; }
+  setTimeout(() => map.invalidateSize(), 60);
+  return true;
+}
+function setLayer(which) {
+  if (!map) return;
+  ['map', 'sat'].forEach((k) => { if (k !== which && map.hasLayer(layers[k])) map.removeLayer(layers[k]); });
+  if (!map.hasLayer(layers[which])) map.addLayer(layers[which]);
+  $('layMap').setAttribute('aria-pressed', which === 'map'); $('laySat').setAttribute('aria-pressed', which === 'sat');
+}
+function pinIcon() {
+  return L.divIcon({
+    className: 'pin', iconSize: [38, 48], iconAnchor: [19, 46],
+    html: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 32" width="38" height="48"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 20 12 20s12-11 12-20C24 5.4 18.6 0 12 0z" fill="#e11d48"/><circle cx="12" cy="12" r="4.5" fill="#fff"/></svg>'
+  });
+}
+function putMarker(lat, lon) {
+  if (!map) return;
+  if (!marker) {
+    marker = L.marker([lat, lon], { draggable: true, autoPan: true, icon: pinIcon(), keyboard: false }).addTo(map);
+    marker.on('dragend', () => { const p = marker.getLatLng(); userPin(p.lat, p.lng, true); });
+  } else marker.setLatLng([lat, lon]);
+}
+function removeMarker() { if (marker && map) { map.removeLayer(marker); } marker = null; }
+function removeCircle() { if (circle && map) { map.removeLayer(circle); } circle = null; }
+function userPin(lat, lng, dragged) {
+  const w = map.wrapLatLng(L.latLng(lat, lng)); lat = w.lat; lng = w.lng;
+  if (!inIndia(lat, lng)) {
+    note('हे ठिकाण भारताबाहेर आहे.');
+    if (dragged) { if (loc.lat !== null) marker.setLatLng([loc.lat, loc.lon]); else removeMarker(); }
+    return;
+  }
+  note(''); removeCircle(); putMarker(lat, lng); clearPaste();
+  setLoc({ lat, lon: lng, url: mapsUrl(lat, lng), source: 'pin' });
+}
+
+/* ---------- GPS ---------- */
+function gpsFail(msg) {
+  gpsFailed = true; busy = false;
+  $('gpsBtn').disabled = false; $('gpsBtn').textContent = '📍 पुन्हा प्रयत्न करा';
+  say(msg + ' नकाशावर पिन लावा किंवा लिंक paste करा.', true);
+  render(); updateSkip();
+}
+$('gpsBtn').addEventListener('click', () => {
+  if (busy) return;
+  if (!navigator.geolocation) { gpsFail('या फोनमध्ये GPS नाही.'); return; }
+  busy = true; $('gpsBtn').disabled = true; $('gpsBtn').textContent = 'लोकेशन मिळवत आहोत…';
+  note(''); say('फोनची Location परवानगी द्या आणि थोडा वेळ थांबा.');
+  navigator.geolocation.getCurrentPosition((pos) => {
+    const lat = pos.coords.latitude, lon = pos.coords.longitude, acc = Math.round(pos.coords.accuracy || 0);
+    if (!validPair(lat, lon)) { gpsFail('चुकीचे GPS मिळाले.'); return; }
+    if (!inIndia(lat, lon)) { gpsFail('GPS भारताबाहेर दाखवत आहे.'); return; }
+    busy = false; gpsFailed = false;
+    $('gpsBtn').disabled = false; $('gpsBtn').textContent = '📍 पुन्हा लोकेशन घ्या';
+    say('');
+    clearPaste(); removeCircle();
+    setLoc({ lat, lon, url: mapsUrl(lat, lon), source: 'gps', accuracy: acc || null });
+    if (showMap(true)) {
+      putMarker(lat, lon);
+      if (acc) circle = L.circle([lat, lon], { radius: acc, color: '#4f46e5', weight: 1, fillOpacity: 0.12, interactive: false }).addTo(map);
+      map.setView([lat, lon], acc && acc > 60 ? 17 : 18);
+    }
+    if (acc > 100) note('GPS अचूकता कमी आहे (±' + acc + ' मी). पिन घरावर ओढून ठेवा.');
+    reveal();
+  }, (err) => {
+    const m = { 1: 'परवानगी नाकारली.', 2: 'फोनचे लोकेशन उपलब्ध नाही.', 3: 'वेळ संपला.' };
+    gpsFail(m[err.code] || 'लोकेशन मिळाले नाही.');
+  }, { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 });
 });
-continueBtn.addEventListener('click',()=>{
- const reason=window.prompt('GPS लोकेशन का मिळाले नाही? कारण लिहा (किमान ५ अक्षरे). उदाहरण: नागरिकांनी परवानगी दिली नाही / घरात GPS सिग्नल नाही.');
- if(reason===null)return;const clean=reason.replace(/[\u0000-\u001f\u007f]/g,' ').trim();if(clean.length<5){statusText.textContent='कृपया किमान ५ अक्षरांचे कारण लिहा.';return;}if(clean.length>300){statusText.textContent='कारण ३०० अक्षरांपेक्षा कमी ठेवा.';return;}
- captureState={status:'NOT_CAPTURED',reason:clean,mapsUrl:''};statusText.textContent='कारण नोंदले. सर्वेक्षण फॉर्म उघडत आहे...';goToForm();
+
+/* ---------- नकाशा बटणे ---------- */
+$('mapBtn').addEventListener('click', () => { if (showMap()) { note(''); $('mapWrap').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } });
+$('layMap').addEventListener('click', () => setLayer('map'));
+$('laySat').addEventListener('click', () => setLayer('sat'));
+
+/* ---------- लिंक paste ---------- */
+let linkTimer = null;
+function handleLink() {
+  const r = parseLocationInput($('linkTxt').value);
+  if (r.kind === 'empty') { linkMsg(''); if (loc.source === 'link') { clearLoc(); } return; }
+  if (r.kind === 'error') { linkMsg(r.msg, 'bad'); if (loc.source === 'link') clearLoc(); return; }
+  note(''); removeCircle();
+  if (r.kind === 'coords') {
+    setLoc({ lat: r.lat, lon: r.lon, url: mapsUrl(r.lat, r.lon), source: 'link' });
+    linkMsg('✓ लिंक बरोबर आहे.', 'ok');
+    if (showMap(true)) { putMarker(r.lat, r.lon); map.setView([r.lat, r.lon], 17); }
+  } else {
+    removeMarker();
+    setLoc({ url: r.url, source: 'link' });
+    linkMsg('✓ लिंक स्वीकारली.', 'ok');
+  }
+  reveal();
+}
+function clearLoc() { removeMarker(); removeCircle(); setLoc({}); }
+$('linkTxt').addEventListener('input', () => { clearTimeout(linkTimer); linkTimer = setTimeout(handleLink, 250); });
+if (navigator.clipboard && typeof navigator.clipboard.readText === 'function') {
+  $('pasteBtn').hidden = false;
+  $('pasteBtn').addEventListener('click', async () => {
+    try { $('linkTxt').value = await navigator.clipboard.readText(); handleLink(); }
+    catch (e) { linkMsg('Paste झाले नाही. बॉक्स दाबून धरून Paste निवडा.', 'bad'); }
+  });
+}
+
+/* ---------- पुढे जा ---------- */
+function goToForm(state) {
+  if (!tokenOk) return;
+  const t = new URL(FORM_URL);
+  t.searchParams.set('assignment_token', token);
+  t.searchParams.set('location_capture_status', state.status);
+  t.searchParams.set('location_failure_reason', state.reason || '');
+  t.searchParams.set('google_maps_url', state.mapsUrl || '');
+  t.searchParams.set('location_source', state.source || '');
+  t.searchParams.set('location_accuracy_m', state.accuracy ? String(state.accuracy) : '');
+  ['gpsBtn', 'goBtn', 'skipBtn'].forEach((id) => { $(id).disabled = true; });
+  window.location.assign(t.toString());
+}
+$('goBtn').addEventListener('click', () => {
+  if (!loc.url) return;
+  goToForm({ status: 'CAPTURED', reason: '', mapsUrl: loc.url, source: loc.source, accuracy: loc.accuracy });
 });
+
+/* ---------- लोकेशन न मिळाल्यास कारण ---------- */
+const reasonText = () => reason === 'इतर' ? clean($('otherTxt').value) : reason;
+function updateSkip() { const r = reasonText(); $('skipBtn').disabled = !(r.length >= 5 && r.length <= 300); }
+REASONS.forEach((t) => {
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'rchip'; b.textContent = t;
+  b.addEventListener('click', () => {
+    reason = t;
+    document.querySelectorAll('.rchip').forEach((x) => x.classList.toggle('on', x === b));
+    $('otherTxt').style.display = (t === 'इतर') ? 'block' : 'none';
+    if (t === 'इतर') $('otherTxt').focus();
+    updateSkip();
+  });
+  $('reasonChips').appendChild(b);
+});
+$('otherTxt').addEventListener('input', updateSkip);
+$('skipBtn').addEventListener('click', () => {
+  const r = reasonText(); if (r.length < 5 || r.length > 300) return;
+  goToForm({ status: 'NOT_CAPTURED', reason: r, mapsUrl: '', source: '', accuracy: null });
+});
+
+/* ---------- सुरुवात ---------- */
+if (!tokenOk) {
+  ['blockGps', 'blockMap', 'blockLink'].forEach((id) => { $(id).hidden = true; });
+  document.querySelectorAll('.or').forEach((e) => { e.hidden = true; });
+  note('हा QR अपूर्ण किंवा चुकीचा आहे. कार्यालयाकडून योग्य QR घ्या.');
+}
+window.addEventListener('pageshow', (e) => { if (e.persisted) window.location.reload(); });
 </script></body></html>
