@@ -247,56 +247,13 @@
     const MEMBER_PAGE_URL = new URL('member.html', window.location.href).toString();
     const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
     const FAMILY_CODE_RE = /^FAM-\d{7,}$/i;
-    // Reuse one opaque request ID within this browser tab until the server confirms a save.
-    // This allows a safe retry after a network timeout without creating a second household.
-    const SUBMISSION_KEY_STORAGE_PREFIX = 'mla-household-submit-v1:';
-    let volatileSubmissionKey = null;
-
-    function createSubmissionUuid() {
-      if (!window.crypto || typeof window.crypto.getRandomValues !== 'function') {
-        throw new Error('Secure random ID generation is unavailable in this browser.');
-      }
-      const bytes = new Uint8Array(16);
-      window.crypto.getRandomValues(bytes);
-      bytes[6] = (bytes[6] & 0x0f) | 0x40;
-      bytes[8] = (bytes[8] & 0x3f) | 0x80;
-      const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
-      return hex.slice(0,8) + '-' + hex.slice(8,12) + '-' + hex.slice(12,16) + '-' + hex.slice(16,20) + '-' + hex.slice(20);
-    }
-
-    function getSubmissionKey() {
-      if (volatileSubmissionKey && UUID_RE.test(volatileSubmissionKey)) return volatileSubmissionKey;
-      const storageKey = SUBMISSION_KEY_STORAGE_PREFIX + assignmentToken;
-      try {
-        const saved = sessionStorage.getItem(storageKey);
-        if (saved && UUID_RE.test(saved)) {
-          volatileSubmissionKey = saved.toLowerCase();
-          return volatileSubmissionKey;
-        }
-      } catch (_) {
-        // Continue with an in-memory key if browser storage is unavailable.
-      }
-      volatileSubmissionKey = createSubmissionUuid();
-      try { sessionStorage.setItem(storageKey, volatileSubmissionKey); } catch (_) {}
-      return volatileSubmissionKey;
-    }
-
-    function clearSubmissionKeyAfterConfirmedSave() {
-      const storageKey = SUBMISSION_KEY_STORAGE_PREFIX + assignmentToken;
-      try { sessionStorage.removeItem(storageKey); } catch (_) {}
-      // Keep the in-memory key for the current page in case navigation is interrupted.
-    }
-    const MAPS_RE = /^https:\/\/([^/?#]+)\/maps\/search\/\?api=1&query=(-?\d+(?:\.\d+)?)(?:%2C|,)(-?\d+(?:\.\d+)?)$/i;
 
     const $ = (id) => document.getElementById(id);
     const params = new URLSearchParams(window.location.search);
     const assignmentToken = (params.get('assignment_token') || '').trim().toLowerCase();
-    const locationStatus = (params.get('location_capture_status') || '').trim().toUpperCase();
+    // Store the location value as supplied. It may be a long Google Maps URL,
+    // a maps.app.goo.gl share link, or blank. No destination/coordinate check.
     const googleMapsUrl = (params.get('google_maps_url') || '').trim();
-    const locationFailureReason = clean(params.get('location_failure_reason') || '').slice(0, 300);
-    const locationSource = clean(params.get('location_source') || '').slice(0, 50);
-    const accuracyText = (params.get('location_accuracy_m') || '').trim();
-    const locationAccuracy = accuracyText && Number.isFinite(Number(accuracyText)) ? Number(accuracyText) : null;
 
     function clean(value) {
       return String(value == null ? '' : value).replace(/[\u0000-\u001F\u007F]/g, ' ').replace(/\s+/g, ' ').trim();
@@ -309,29 +266,31 @@
       $('fatalText').textContent = message;
     }
 
-    function validMapsUrl(value) {
-      const match = value.match(MAPS_RE);
-      if (!match) return false;
-      const host = match[1].toLowerCase();
-      const lat = Number(match[2]);
-      const lon = Number(match[3]);
-      const validHost = host === 'google.com' || host.endsWith('.google.com');
-      return validHost && Number.isFinite(lat) && Number.isFinite(lon) && lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180;
-    }
-
     function prepareLocationBox() {
       const box = $('locationBox');
-      if (locationStatus === 'CAPTURED') {
+      const link = $('locationLink');
+      link.hidden = true;
+
+      if (googleMapsUrl) {
         box.classList.remove('not-captured');
-        $('locationTitle').textContent = 'घराचे लोकेशन नोंदवले आहे';
-        $('locationText').textContent = locationSource ? 'लोकेशन पद्धत: ' + locationSource + (locationAccuracy ? ' · अचूकता अंदाजे ±' + locationAccuracy + ' मीटर' : '') : 'लोकेशनची लिंक या कुटुंबाच्या नोंदीसोबत जतन केली जाईल.';
-        $('locationLink').href = googleMapsUrl;
-        $('locationLink').hidden = false;
+        $('locationTitle').textContent = 'घराच्या लोकेशनची लिंक मिळाली आहे';
+        $('locationText').textContent = 'ही लिंक कुटुंबाच्या नोंदीसोबत जतन केली जाईल.';
+
+        // Keep the original text for the database. Only expose a clickable link
+        // when the value is a normal HTTP(S) URL; do not restrict its host.
+        try {
+          const parsed = new URL(googleMapsUrl);
+          if (parsed.protocol === 'https:' || parsed.protocol === 'http:') {
+            link.href = parsed.href;
+            link.hidden = false;
+          }
+        } catch (_) {
+          // An unrecognised value is still stored, just not made clickable.
+        }
       } else {
         box.classList.add('not-captured');
-        $('locationTitle').textContent = 'लोकेशन मिळालेले नाही';
-        $('locationText').textContent = 'नोंदवलेले कारण: ' + locationFailureReason + '. फॉर्ममधील माहिती भरून पुढे जाऊ शकता.';
-        $('locationLink').hidden = true;
+        $('locationTitle').textContent = 'लोकेशन लिंक उपलब्ध नाही';
+        $('locationText').textContent = 'लोकेशनची लिंक नसली तरी तुम्ही फॉर्म भरून कुटुंबाची नोंद करू शकता.';
       }
     }
 
@@ -429,22 +388,16 @@
 
     async function submitHousehold(values) {
       const payload = {
-        submission_key: getSubmissionKey(),
         assignment_token: assignmentToken,
-        location_capture_status: locationStatus,
-        google_maps_url: googleMapsUrl || null,
-        location_failure_reason: locationFailureReason || null,
-        location_source: locationSource || null,
-        location_accuracy_m: locationAccuracy,
         head_name: values.head_name,
         declared_member_count: values.declared_member_count,
         years_of_residence: values.years_of_residence,
         children_count: values.children_count,
         avg_monthly_income_inr: values.avg_monthly_income_inr,
         address: values.address,
+        google_maps_url: googleMapsUrl || null,
         household_consent: values.household_consent,
         consent_given: true,
-        household_notes: values.household_notes || null,
         notes: values.household_notes || null
       };
 
@@ -482,8 +435,8 @@
         clearSubmissionKeyAfterConfirmedSave();
         window.location.replace(next.toString());
       } catch (error) {
-        // A network failure can happen after the server has already saved the household.
-        // Avoid encouraging an immediate duplicate submission.
+        // A network failure may happen after the database has saved the household.
+        // Check with the office before submitting again to avoid a duplicate.
         setBusy(true);
         $('serverMessage').textContent = 'सर्व्हरकडून उत्तर मिळाले नाही. कुटुंबाची नोंद झाली आहे की नाही हे निश्चित सांगता येत नाही. कृपया पुन्हा सबमिट करू नका; आधी पर्यवेक्षकाकडून NocoDB मध्ये तपासणी करून घ्या.';
         $('serverMessage').hidden = false;
@@ -521,15 +474,9 @@
       });
     });
 
-    // Validate the QR and location parameters before displaying the form.
+    // Only the QR assignment token is required. Location is optional.
     if (!UUID_RE.test(assignmentToken)) {
       showFatal('QR लिंक योग्य नाही', 'कृपया पर्यवेक्षकाने दिलेला अधिकृत QR कोड स्कॅन करा.');
-    } else if (!['CAPTURED','NOT_CAPTURED'].includes(locationStatus)) {
-      showFatal('लोकेशनची माहिती अपूर्ण आहे', 'QR मधील अधिकृत लोकेशन पेजवरून पुन्हा सुरुवात करा.');
-    } else if (locationStatus === 'CAPTURED' && !validMapsUrl(googleMapsUrl)) {
-      showFatal('लोकेशन लिंक योग्य नाही', 'GPS पुन्हा मिळवा किंवा नकाशावर घराचा पिन निवडून पुढे जा.');
-    } else if (locationStatus === 'NOT_CAPTURED' && locationFailureReason.length < 5) {
-      showFatal('लोकेशनचे कारण उपलब्ध नाही', 'QR मधील लोकेशन पेजवर कारण नोंदवून पुन्हा फॉर्म उघडा.');
     } else {
       $('fatal').hidden = true;
       $('formCard').hidden = false;
