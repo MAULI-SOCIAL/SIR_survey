@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="robots" content="noindex,nofollow">
+  <title>कुटुंब सर्वेक्षण नोंदणी | माऊली कटके कार्यालय</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0f172a;
+      --purple: #4f46e5;
+      --purple-dark: #312e81;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #cbd5e1;
+      --surface: #f8fafc;
+      --red: #be123c;
+      --green: #047857;
+      --radius: 12px;
+      font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    [hidden] { display: none !important; }
+    html { min-height: 100%; background: var(--navy); }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 22px 12px;
+      color: var(--text);
+      font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 52%, #0f172a 100%);
+    }
+    .page { width: 100%; max-width: 660px; margin: 0 auto; }
+    .card {
+      width: 100%;
+      padding: 30px;
+      border: 1px solid rgba(226,232,240,.9);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: 0 25px 60px rgba(0,0,0,.25);
+    }
+    .brand-icon {
+      width: 62px; height: 62px; margin: 0 auto 13px;
+      display: grid; place-items: center;
+      border-radius: 18px; background: #eef2ff; font-size: 30px;
+    }
+    .step {
+      width: fit-content; margin: 0 auto 12px; padding: 6px 12px;
+      color: #4338ca; background: #eef2ff; border: 1px solid #c7d2fe;
+      border-radius: 99px; font-size: 12px; font-weight: 700;
+    }
+    h1 {
+      margin: 0; color: var(--purple-dark); text-align: center;
+      font-size: 24px; line-height: 1.5; font-weight: 700;
+    }
+    .intro {
+      margin: 9px auto 20px; max-width: 540px; color: #475569;
+      text-align: center; font-size: 14px; line-height: 1.75;
+    }
+    .progress { height: 6px; margin: 0 0 20px; overflow: hidden; border-radius: 99px; background: #e2e8f0; }
+    .progress > span { display: block; width: 50%; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#4f46e5,#9333ea); }
+    .location-box {
+      margin: 0 0 22px; padding: 13px 14px; display: flex; gap: 11px;
+      align-items: flex-start; border: 1px solid #a7f3d0; border-radius: 13px;
+      background: #ecfdf5; color: #065f46;
+    }
+    .location-box.not-captured { border-color: #fed7aa; background: #fff7ed; color: #9a3412; }
+    .location-symbol { flex: 0 0 auto; font-size: 21px; line-height: 1.3; }
+    .location-copy { min-width: 0; font-size: 13px; line-height: 1.6; }
+    .location-copy strong { display: block; margin-bottom: 2px; font-size: 14px; }
+    .location-copy a { display: inline-block; margin-top: 4px; color: #4338ca; font-weight: 700; text-decoration: none; }
+    .form-section { margin-top: 20px; }
+    .section-title {
+      margin: 0 0 14px; padding-bottom: 9px; border-bottom: 1px solid #e2e8f0;
+      color: #312e81; font-size: 16px; font-weight: 700;
+    }
+    .field { margin: 0 0 17px; }
+    label, .legend {
+      display: block; margin: 0 0 7px; color: #0f172a;
+      font-size: 14px; font-weight: 700; line-height: 1.6;
+    }
+    .required { color: #e11d48; }
+    .hint { margin: 5px 1px 0; color: #64748b; font-size: 12px; line-height: 1.55; }
+    input[type="text"], input[type="number"], textarea {
+      display: block; width: 100%; min-height: 49px; padding: 12px 14px;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--surface); color: var(--text);
+      font: inherit; font-size: 14px; line-height: 1.5; outline: none;
+      transition: border-color .15s, box-shadow .15s, background .15s;
+    }
+    textarea { min-height: 96px; resize: vertical; }
+    input:focus, textarea:focus { border-color: #6366f1; background: #fff; box-shadow: 0 0 0 4px rgba(99,102,241,.14); }
+    input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #e11d48; background: #fffafa; }
+    .field-error { min-height: 0; margin: 5px 1px 0; color: var(--red); font-size: 12px; line-height: 1.55; font-weight: 600; }
+    .choice-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .choice {
+      min-height: 48px; display: flex; align-items: center; gap: 9px;
+      padding: 11px 12px; border: 1px solid var(--border); border-radius: 12px;
+      background: var(--surface); color: #334155; font-size: 13px; font-weight: 600;
+      cursor: pointer;
+    }
+    .choice:has(input:checked) { border-color: #6366f1; background: #eef2ff; color: #312e81; }
+    .choice input { width: 18px; height: 18px; margin: 0; accent-color: #4f46e5; flex: 0 0 auto; }
+    .choice-wrap[aria-invalid="true"] .choice { border-color: #fda4af; }
+    .consent-note { margin: 10px 1px 0; padding: 10px 12px; border-radius: 10px; background: #f8fafc; color: #64748b; font-size: 12px; line-height: 1.6; }
+    .error-summary {
+      margin: 0 0 18px; padding: 13px 15px; border: 1px solid #fecdd3;
+      border-radius: 12px; background: #fff1f2; color: #9f1239;
+    }
+    .error-summary strong { display: block; margin-bottom: 5px; font-size: 14px; }
+    .error-summary ul { margin: 0; padding-left: 21px; font-size: 13px; line-height: 1.7; }
+    .status-message {
+      margin: 0 0 16px; padding: 12px 14px; border: 1px solid #fed7aa;
+      border-radius: 12px; background: #fff7ed; color: #9a3412;
+      font-size: 13px; line-height: 1.65;
+    }
+    .submit-btn {
+      width: 100%; min-height: 54px; margin-top: 6px; padding: 13px 16px;
+      border: 0; border-radius: 12px; color: #fff;
+      background: linear-gradient(135deg,#4f46e5,#9333ea,#db2777);
+      font: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+      box-shadow: 0 7px 18px rgba(79,70,229,.2);
+    }
+    .submit-btn:disabled { opacity: .65; cursor: not-allowed; box-shadow: none; }
+    .footer-note { margin: 15px 0 0; color: #94a3b8; text-align: center; font-size: 11px; line-height: 1.6; }
+    .fatal-card { margin-top: 7vh; text-align: center; }
+    .fatal-card .brand-icon { background: #fff1f2; }
+    .fatal-card h1 { color: #9f1239; }
+    .fatal-card p { color: #475569; font-size: 14px; line-height: 1.75; }
+    @media (max-width: 600px) {
+      body { padding: 12px 8px; }
+      .card { padding: 23px 17px; border-radius: 18px; }
+      h1 { font-size: 21px; }
+      .intro { font-size: 13px; }
+      input[type="text"], input[type="number"], textarea { font-size: 14px; padding: 12px; }
+      .choice-list { grid-template-columns: 1fr; gap: 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section id="fatal" class="card fatal-card" hidden>
+      <div class="brand-icon" aria-hidden="true">⚠️</div>
+      <h1 id="fatalTitle">लिंक उघडता आली नाही</h1>
+      <p id="fatalText">कृपया पर्यवेक्षकाकडून अधिकृत QR कोड पुन्हा घ्या.</p>
+    </section>
+
+    <section id="formCard" class="card" hidden>
+      <div class="brand-icon" aria-hidden="true">🏠</div>
+      <div class="step">टप्पा १ / २ · कुटुंब नोंदणी</div>
+      <h1>कुटुंब सर्वेक्षण नोंदणी</h1>
+      <p class="intro">हा फॉर्म प्रत्येक कुटुंबासाठी एकदाच भरा. पुढील टप्प्यात कुटुंबातील प्रत्येक सदस्याची स्वतंत्र नोंद करता येईल. माहिती केवळ कार्यालयीन नियोजनासाठी वापरली जाईल.</p>
+      <div class="progress" aria-label="दोन टप्प्यांपैकी पहिला टप्पा"><span></span></div>
+
+      <div id="locationBox" class="location-box" role="status" aria-live="polite">
+        <div class="location-symbol" aria-hidden="true">📍</div>
+        <div class="location-copy"><strong id="locationTitle">लोकेशन तपासत आहोत…</strong><span id="locationText"></span><a id="locationLink" href="#" target="_blank" rel="noopener noreferrer" hidden>Google Maps मध्ये लोकेशन पाहा ↗</a></div>
+      </div>
+
+      <div id="errorSummary" class="error-summary" role="alert" tabindex="-1" hidden>
+        <strong>नोंद जतन झालेली नाही. कृपया खालील चुका दुरुस्त करा:</strong>
+        <ul id="errorList"></ul>
+      </div>
+      <div id="serverMessage" class="status-message" role="status" aria-live="polite" hidden></div>
+
+      <form id="householdForm" novalidate>
+        <section class="form-section" aria-labelledby="householdDetailsHeading">
+          <h2 id="householdDetailsHeading" class="section-title">कुटुंबाची माहिती</h2>
+
+          <div class="field">
+            <label for="head_name">कुटुंब प्रमुखाचे पूर्ण नाव <span class="required">*</span></label>
+            <input id="head_name" name="head_name" type="text" maxlength="100" autocomplete="name" placeholder="उदा. रमेश विठ्ठल पाटील" required aria-describedby="head_name_error">
+            <div class="field-error" id="head_name_error"></div>
+          </div>
+
+          <div class="field">
+            <label for="declared_member_count">कुटुंबातील एकूण सदस्य संख्या <span class="required">*</span></label>
+            <input id="declared_member_count" name="declared_member_count" type="number" inputmode="numeric" min="1" max="60" step="1" placeholder="उदा. 5" required aria-describedby="declared_member_count_error">
+            <p class="hint">कुटुंबातील सर्व व्यक्तींची एकूण संख्या लिहा. कुटुंब प्रमुखाचाही समावेश करा.</p>
+            <div class="field-error" id="declared_member_count_error"></div>
+          </div>
+
+          <div class="field">
+            <label for="years_of_residence">या गावात किती वर्षांपासून राहता? <span class="required">*</span></label>
+            <input id="years_of_residence" name="years_of_residence" type="number" inputmode="numeric" min="0" max="150" step="1" placeholder="पूर्ण वर्षे लिहा" required aria-describedby="years_of_residence_error">
+            <div class="field-error" id="years_of_residence_error"></div>
+          </div>
+
+          <div class="field">
+            <label for="children_count">कुटुंबातील एकूण मुलांची संख्या <span class="required">*</span></label>
+            <input id="children_count" name="children_count" type="number" inputmode="numeric" min="0" max="60" step="1" placeholder="मुले नसल्यास 0 लिहा" required aria-describedby="children_count_error">
+            <p class="hint">कुटुंबातील मुलांची संख्या लिहा. मुले नसल्यास ० लिहा.</p>
+            <div class="field-error" id="children_count_error"></div>
+          </div>
+
+          <div class="field">
+            <label for="avg_monthly_income_inr">कुटुंबाचे सरासरी मासिक उत्पन्न (₹) <span class="required">*</span></label>
+            <input id="avg_monthly_income_inr" name="avg_monthly_income_inr" type="number" inputmode="decimal" min="0" max="100000000" step="0.01" placeholder="उत्पन्न नसल्यास 0 लिहा" required aria-describedby="avg_monthly_income_inr_error">
+            <div class="field-error" id="avg_monthly_income_inr_error"></div>
+          </div>
+
+          <div class="field">
+            <label for="address">संपूर्ण घराचा पत्ता <span class="required">*</span></label>
+            <textarea id="address" name="address" maxlength="1000" placeholder="घर क्रमांक / गल्ली / परिसर" required aria-describedby="address_error"></textarea>
+            <div class="field-error" id="address_error"></div>
+          </div>
+        </section>
+
+        <section class="form-section" aria-labelledby="consentHeading">
+          <h2 id="consentHeading" class="section-title">संमती आणि अतिरिक्त माहिती</h2>
+          <fieldset class="field" style="border:0;padding:0;margin-left:0;margin-right:0;">
+            <legend class="legend">कुटुंबाची माहिती नोंदवण्यास संमती आहे का? <span class="required">*</span></legend>
+            <div id="consentWrap" class="choice-wrap">
+              <div class="choice-list">
+                <label class="choice"><input type="radio" name="household_consent" value="होय, संमती आहे"> <span>होय, संमती आहे</span></label>
+                <label class="choice"><input type="radio" name="household_consent" value="नाही, संमती नाही"> <span>नाही, संमती नाही</span></label>
+              </div>
+            </div>
+            <p class="consent-note">संमती मिळाल्यानंतरच कुटुंबाची नोंद जतन केली जाईल. संमती नसेल तर फॉर्म सबमिट करू नका.</p>
+            <div class="field-error" id="household_consent_error"></div>
+          </fieldset>
+
+          <div class="field">
+            <label for="household_notes">अतिरिक्त नोंद (ऐच्छिक)</label>
+            <textarea id="household_notes" name="household_notes" maxlength="2000" placeholder="गरज असल्यासच लिहा"></textarea>
+            <p class="hint">या कुटुंबाबाबत कार्यालयासाठी आवश्यक असलेली थोडक्यात माहिती.</p>
+            <div class="field-error" id="household_notes_error"></div>
+          </div>
+        </section>
+
+        <button id="submitBtn" class="submit-btn" type="submit">कुटुंबाची नोंद करा →</button>
+        <p class="footer-note">* असलेली माहिती भरणे आवश्यक आहे. पुढील टप्प्यात प्रत्येक सदस्याची स्वतंत्र नोंद केली जाईल.</p>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    'use strict';
+
+    // This endpoint will be provided by the matching n8n household-save webhook.
+    const API_URL = 'https://office.maulikatke.in/webhook/household-save';
+    const MEMBER_PAGE_URL = new URL('member.html', window.location.href).toString();
+    const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    const FAMILY_CODE_RE = /^FAM-\d{7,}$/i;
+    const MAPS_RE = /^https:\/\/([^/?#]+)\/maps\/search\/\?api=1&query=(-?\d+(?:\.\d+)?)(?:%2C|,)(-?\d+(?:\.\d+)?)$/i;
+
+    const $ = (id) => document.getElementById(id);
+    const params = new URLSearchParams(window.location.search);
+    const assignmentToken = (params.get('assignment_token') || '').trim().toLowerCase();
+    const locationStatus = (params.get('location_capture_status') || '').trim().toUpperCase();
+    const googleMapsUrl = (params.get('google_maps_url') || '').trim();
+    const locationFailureReason = clean(params.get('location_failure_reason') || '').slice(0, 300);
+    const locationSource = clean(params.get('location_source') || '').slice(0, 50);
+    const accuracyText = (params.get('location_accuracy_m') || '').trim();
+    const locationAccuracy = accuracyText && Number.isFinite(Number(accuracyText)) ? Number(accuracyText) : null;
+
+    function clean(value) {
+      return String(value == null ? '' : value).replace(/[\u0000-\u001F\u007F]/g, ' ').replace(/\s+/g, ' ').trim();
+    }
+
+    function showFatal(title, message) {
+      $('formCard').hidden = true;
+      $('fatal').hidden = false;
+      $('fatalTitle').textContent = title;
+      $('fatalText').textContent = message;
+    }
+
+    function validMapsUrl(value) {
+      const match = value.match(MAPS_RE);
+      if (!match) return false;
+      const host = match[1].toLowerCase();
+      const lat = Number(match[2]);
+      const lon = Number(match[3]);
+      const validHost = host === 'google.com' || host.endsWith('.google.com');
+      return validHost && Number.isFinite(lat) && Number.isFinite(lon) && lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180;
+    }
+
+    function prepareLocationBox() {
+      const box = $('locationBox');
+      if (locationStatus === 'CAPTURED') {
+        box.classList.remove('not-captured');
+        $('locationTitle').textContent = 'घराचे लोकेशन नोंदवले आहे';
+        $('locationText').textContent = locationSource ? 'लोकेशन पद्धत: ' + locationSource + (locationAccuracy ? ' · अचूकता अंदाजे ±' + locationAccuracy + ' मीटर' : '') : 'लोकेशनची लिंक या कुटुंबाच्या नोंदीसोबत जतन केली जाईल.';
+        $('locationLink').href = googleMapsUrl;
+        $('locationLink').hidden = false;
+      } else {
+        box.classList.add('not-captured');
+        $('locationTitle').textContent = 'लोकेशन मिळालेले नाही';
+        $('locationText').textContent = 'नोंदवलेले कारण: ' + locationFailureReason + '. फॉर्ममधील माहिती भरून पुढे जाऊ शकता.';
+        $('locationLink').hidden = true;
+      }
+    }
+
+    function clearFieldErrors() {
+      document.querySelectorAll('.field-error').forEach((el) => { el.textContent = ''; });
+      document.querySelectorAll('[aria-invalid="true"]').forEach((el) => el.removeAttribute('aria-invalid'));
+      $('errorSummary').hidden = true;
+      $('errorList').replaceChildren();
+    }
+
+    function setFieldError(fieldId, message) {
+      const error = $(fieldId + '_error');
+      if (error) error.textContent = message;
+      const field = $(fieldId);
+      if (field) field.setAttribute('aria-invalid', 'true');
+      if (fieldId === 'household_consent') $('consentWrap').setAttribute('aria-invalid', 'true');
+    }
+
+    function showErrors(errors, serverMessage) {
+      clearFieldErrors();
+      const fieldMessages = {
+        head_name: 'कुटुंब प्रमुखाचे नाव २ ते १०० अक्षरांत लिहा.',
+        declared_member_count: 'सदस्य संख्या १ ते ६० दरम्यान पूर्णांक असावी.',
+        years_of_residence: 'वास्तव्याची वर्षे ० ते १५० दरम्यान पूर्णांक असावीत.',
+        children_count: 'मुलांची संख्या ० ते ६० दरम्यान पूर्णांक असावी.',
+        avg_monthly_income_inr: 'मासिक उत्पन्नासाठी ० किंवा योग्य रक्कम लिहा.',
+        address: 'घराचा पत्ता किमान ५ आणि कमाल १००० अक्षरांचा असावा.',
+        household_consent: 'कुटुंबाची नोंद करण्यासाठी संमती आवश्यक आहे.',
+        household_notes: 'अतिरिक्त नोंद कमाल २००० अक्षरांची असावी.'
+      };
+      const summaryItems = [];
+      for (const item of errors) {
+        const field = item && typeof item === 'object' ? item.field : '';
+        const message = typeof item === 'string' ? item : (item && item.message ? item.message : 'माहिती तपासा.');
+        if (field && fieldMessages[field]) setFieldError(field, message);
+        summaryItems.push(message);
+      }
+      if (summaryItems.length) {
+        summaryItems.forEach((message) => {
+          const li = document.createElement('li');
+          li.textContent = message;
+          $('errorList').appendChild(li);
+        });
+        $('errorSummary').hidden = false;
+        $('errorSummary').focus();
+      }
+      if (serverMessage) {
+        $('serverMessage').textContent = serverMessage;
+        $('serverMessage').hidden = false;
+      }
+    }
+
+    function validateForm() {
+      const errors = [];
+      const head = clean($('head_name').value);
+      const countText = clean($('declared_member_count').value);
+      const count = Number(countText);
+      const yearsText = clean($('years_of_residence').value);
+      const years = Number(yearsText);
+      const childrenText = clean($('children_count').value);
+      const children = Number(childrenText);
+      const incomeText = clean($('avg_monthly_income_inr').value).replace(/,/g, '');
+      const income = Number(incomeText);
+      const address = clean($('address').value);
+      const consent = document.querySelector('input[name="household_consent"]:checked');
+      const notes = clean($('household_notes').value);
+
+      if (Array.from(head).length < 2 || Array.from(head).length > 100) errors.push({field:'head_name',message:'कुटुंब प्रमुखाचे नाव २ ते १०० अक्षरांत लिहा.'});
+      if (!countText || !Number.isInteger(count) || count < 1 || count > 60) errors.push({field:'declared_member_count',message:'कुटुंबातील सदस्य संख्या १ ते ६० दरम्यान पूर्णांक असावी.'});
+      if (yearsText === '' || !Number.isInteger(years) || years < 0 || years > 150) errors.push({field:'years_of_residence',message:'वास्तव्याची वर्षे ० ते १५० दरम्यान पूर्णांक असावीत.'});
+      if (childrenText === '' || !Number.isInteger(children) || children < 0 || children > 60) errors.push({field:'children_count',message:'मुलांची संख्या ० ते ६० दरम्यान पूर्णांक असावी.'});
+      if (Number.isInteger(count) && Number.isInteger(children) && children > count) errors.push({field:'children_count',message:'मुलांची संख्या एकूण कुटुंब सदस्यांपेक्षा जास्त असू शकत नाही.'});
+      if (incomeText === '' || !Number.isFinite(income) || income < 0 || income > 100000000) errors.push({field:'avg_monthly_income_inr',message:'मासिक उत्पन्नासाठी ० किंवा योग्य रक्कम लिहा.'});
+      if (Array.from(address).length < 5 || Array.from(address).length > 1000) errors.push({field:'address',message:'घराचा पत्ता किमान ५ आणि कमाल १००० अक्षरांचा असावा.'});
+      if (!consent || consent.value !== 'होय, संमती आहे') errors.push({field:'household_consent',message:'संमती मिळालेली नसल्यास कुटुंबाची नोंद जतन करता येणार नाही.'});
+      if (Array.from(notes).length > 2000) errors.push({field:'household_notes',message:'अतिरिक्त नोंद कमाल २००० अक्षरांची असावी.'});
+      return {errors, values:{head_name:head,declared_member_count:count,years_of_residence:years,children_count:children,avg_monthly_income_inr:Math.round(income*100)/100,address,household_consent:consent ? consent.value : '',household_notes:notes}};
+    }
+
+    function serverErrorsFrom(data) {
+      if (data && Array.isArray(data.errors) && data.errors.length) return data.errors;
+      if (data && typeof data.errorText === 'string' && data.errorText.trim()) {
+        return data.errorText.split('\n').map((x) => x.replace(/^\s*\d+\.\s*/, '').trim()).filter(Boolean).map((message) => ({message}));
+      }
+      if (data && typeof data.message === 'string' && data.message.trim()) return [{message:data.message}];
+      const status = String(data && data.status || '');
+      if (status === 'INVALID_ASSIGNMENT' || status === 'HOUSEHOLD_OR_ASSIGNMENT_NOT_FOUND') return [{message:'हा QR कोड निष्क्रिय आहे किंवा वैध नाही. पर्यवेक्षकाकडून योग्य QR कोड घ्या.'}];
+      return [{message:'सर्व्हरला माहिती जतन करता आली नाही. कृपया पर्यवेक्षकाला कळवा.'}];
+    }
+
+    function setBusy(busy) {
+      $('submitBtn').disabled = busy;
+      $('submitBtn').textContent = busy ? 'नोंद जतन होत आहे…' : 'कुटुंबाची नोंद करा →';
+    }
+
+    async function submitHousehold(values) {
+      const payload = {
+        assignment_token: assignmentToken,
+        location_capture_status: locationStatus,
+        google_maps_url: googleMapsUrl || null,
+        location_failure_reason: locationFailureReason || null,
+        location_source: locationSource || null,
+        location_accuracy_m: locationAccuracy,
+        head_name: values.head_name,
+        declared_member_count: values.declared_member_count,
+        years_of_residence: values.years_of_residence,
+        children_count: values.children_count,
+        avg_monthly_income_inr: values.avg_monthly_income_inr,
+        address: values.address,
+        household_consent: values.household_consent,
+        consent_given: true,
+        household_notes: values.household_notes || null,
+        notes: values.household_notes || null
+      };
+
+      setBusy(true);
+      $('serverMessage').hidden = true;
+      $('errorSummary').hidden = true;
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          mode: 'cors',
+          credentials: 'omit',
+          headers: {'Content-Type':'application/json','Accept':'application/json'},
+          body: JSON.stringify(payload)
+        });
+        const raw = await response.text();
+        let data;
+        try { data = raw ? JSON.parse(raw) : {}; }
+        catch (_) { data = {}; }
+        if (!response.ok || data.ok !== true) {
+          showErrors(serverErrorsFrom(data), data && data.error ? String(data.error) : 'नोंद जतन झाली नाही. खालील माहिती तपासा.');
+          setBusy(false);
+          return;
+        }
+        const householdCode = clean(data.household_code || data.householdCode || '').toUpperCase();
+        if (!FAMILY_CODE_RE.test(householdCode)) {
+          showErrors([{message:'सर्व्हरकडून कुटुंब कोड मिळाला नाही. नोंद पुन्हा करू नका; पर्यवेक्षकाला कळवा.'}], 'सर्व्हरचे उत्तर अपूर्ण आहे.');
+          setBusy(false);
+          return;
+        }
+        const next = new URL(MEMBER_PAGE_URL);
+        next.searchParams.set('household_code', householdCode);
+        next.searchParams.set('assignment_token', assignmentToken);
+        $('serverMessage').textContent = 'कुटुंबाची नोंद यशस्वी झाली. सदस्य नोंदणी उघडत आहे…';
+        $('serverMessage').hidden = false;
+        window.location.replace(next.toString());
+      } catch (error) {
+        // A network failure can happen after the server has already saved the household.
+        // Avoid encouraging an immediate duplicate submission.
+        setBusy(true);
+        $('serverMessage').textContent = 'सर्व्हरकडून उत्तर मिळाले नाही. कुटुंबाची नोंद झाली आहे की नाही हे निश्चित सांगता येत नाही. कृपया पुन्हा सबमिट करू नका; आधी पर्यवेक्षकाकडून NocoDB मध्ये तपासणी करून घ्या.';
+        $('serverMessage').hidden = false;
+        $('serverMessage').scrollIntoView({behavior:'smooth',block:'center'});
+      }
+    }
+
+    $('householdForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      clearFieldErrors();
+      $('serverMessage').hidden = true;
+      const checked = validateForm();
+      if (checked.errors.length) {
+        showErrors(checked.errors, '');
+        const first = checked.errors[0] && checked.errors[0].field;
+        if (first && $(first)) $(first).focus();
+        return;
+      }
+      await submitHousehold(checked.values);
+    });
+
+    document.querySelectorAll('input,textarea').forEach((el) => {
+      el.addEventListener('input', () => {
+        if (el.getAttribute('aria-invalid') === 'true') {
+          el.removeAttribute('aria-invalid');
+          const error = $(el.id + '_error');
+          if (error) error.textContent = '';
+        }
+      });
+      el.addEventListener('change', () => {
+        if (el.name === 'household_consent') {
+          $('consentWrap').removeAttribute('aria-invalid');
+          $('household_consent_error').textContent = '';
+        }
+      });
+    });
+
+    // Validate the QR and location parameters before displaying the form.
+    if (!UUID_RE.test(assignmentToken)) {
+      showFatal('QR लिंक योग्य नाही', 'कृपया पर्यवेक्षकाने दिलेला अधिकृत QR कोड स्कॅन करा.');
+    } else if (!['CAPTURED','NOT_CAPTURED'].includes(locationStatus)) {
+      showFatal('लोकेशनची माहिती अपूर्ण आहे', 'QR मधील अधिकृत लोकेशन पेजवरून पुन्हा सुरुवात करा.');
+    } else if (locationStatus === 'CAPTURED' && !validMapsUrl(googleMapsUrl)) {
+      showFatal('लोकेशन लिंक योग्य नाही', 'GPS पुन्हा मिळवा किंवा नकाशावर घराचा पिन निवडून पुढे जा.');
+    } else if (locationStatus === 'NOT_CAPTURED' && locationFailureReason.length < 5) {
+      showFatal('लोकेशनचे कारण उपलब्ध नाही', 'QR मधील लोकेशन पेजवर कारण नोंदवून पुन्हा फॉर्म उघडा.');
+    } else {
+      $('fatal').hidden = true;
+      $('formCard').hidden = false;
+      prepareLocationBox();
+    }
+  </script>
+</body>
+</html>
