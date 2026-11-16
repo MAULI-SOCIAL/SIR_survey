@@ -3,87 +3,104 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0f172a">
+<meta name="theme-color" content="#4338ca">
 <meta name="robots" content="noindex,nofollow">
-<title>सदस्याची नोंद | माऊली कटके कार्यालय</title>
+<title>सदस्याची नोंद</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box}
-html{background:#0f172a}
-body{margin:0;min-height:100vh;padding:18px 12px 40px;font-family:'Noto Sans Devanagari','Hind Vadodara',system-ui,sans-serif;color:#0f172a;background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 52%,#0f172a 100%)}
-.wrap{max-width:640px;margin:0 auto}
-.card{background:#fff;border-radius:20px;padding:24px 20px;margin-bottom:14px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
-.hero{text-align:center}
-.badge{width:64px;height:64px;margin:0 auto 10px;border-radius:18px;display:grid;place-items:center;background:#eef2ff;font-size:32px}
-h1{margin:0 0 8px;font-size:22px;line-height:1.5;color:#312e81}
-.sub{margin:0;color:#475569;line-height:1.7;font-size:14px}
-.progress{margin-top:14px;display:inline-block;padding:8px 14px;border-radius:999px;background:#eef2ff;color:#3730a3;font-weight:600;font-size:14px}
-.progress.done{background:#ccfbf1;color:#0f766e}
-.banner{border-radius:14px;padding:14px 16px;margin-bottom:14px;font-size:15px;line-height:1.7;font-weight:500;white-space:pre-line}
-.banner.success{background:#ccfbf1;color:#115e59;border:1px solid #5eead4}
-.banner.info{background:#e0e7ff;color:#3730a3;border:1px solid #a5b4fc}
-.banner.warn{background:#fff7ed;color:#9a3412;border:1px solid #fed7aa}
-.banner.error{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
-.section{margin:6px 0 4px;padding-top:14px;border-top:1px solid #e2e8f0}
-.section:first-child{border-top:0;padding-top:0}
-.section h2{margin:0 0 12px;font-size:16px;color:#4338ca}
-.field{margin-bottom:16px}
+:root{--ink:#1b1a3a;--mute:#64657f;--line:#dcdff0;--field:#f6f7fd;--brand:#4338ca;--brand2:#6d4be0;--soft:#eceafd;--bad:#c81e4b;--badbg:#fff1f4;--ok:#0f7a55}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:#f1f2fb}
+body{margin:0;min-height:100vh;font-family:'Noto Sans Devanagari','Hind Vadodara',system-ui,sans-serif;color:var(--ink);font-size:17px;line-height:1.5}
+.wrap{max-width:520px;margin:0 auto;padding:calc(18px + env(safe-area-inset-top)) 14px calc(24px + env(safe-area-inset-bottom))}
+
+/* header: the one memorable thing = big member counter */
+.top{padding:4px 6px 18px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.top h1{margin:0;font-size:30px;font-weight:700;letter-spacing:-.2px;line-height:1.25}
+.top h1 small{font-size:18px;font-weight:500;color:var(--mute)}
+.head-pill{flex:none;background:#fff4d6;color:#8a5a00;font-weight:600;font-size:14px;padding:6px 12px;border-radius:99px}
+.dots{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.dots i{height:8px;flex:1 1 0;min-width:10px;max-width:48px;border-radius:99px;background:#d6d9f0}
+.dots i.done{background:var(--ok)}
+.dots i.now{background:var(--brand)}
+
+.card{background:#fff;border-radius:24px;padding:22px 18px;box-shadow:0 1px 2px rgba(40,38,110,.06),0 12px 32px rgba(40,38,110,.09);margin-bottom:12px}
+.banner{border-radius:16px;padding:12px 16px;margin-bottom:12px;font-size:16px;font-weight:600;white-space:pre-line}
+.banner.success{background:#dcf7ea;color:#0b5f43}
+.banner.info{background:var(--soft);color:#3730a3}
+.banner.warn{background:#ffefd9;color:#8a4a07}
+.banner.error{background:#ffe3e9;color:#9d1239}
+
+.field{margin-bottom:22px}
 .field[hidden]{display:none}
-label{display:block;margin-bottom:6px;font-weight:700;font-size:14px;color:#0f172a;line-height:1.5}
-.req{color:#ec4899}
-input[type=text],select,textarea{width:100%;padding:13px 14px;background:#f8fafc;color:#0f172a;border:1.5px solid #cbd5e1;border-radius:12px;font:inherit;font-size:15px;min-height:48px;transition:border-color .15s,box-shadow .15s}
-textarea{min-height:92px;resize:vertical}
-select:disabled{background:#eef2ff;color:#3730a3;opacity:1;font-weight:600}
-input:focus,select:focus,textarea:focus{background:#fff;border-color:#6366f1;box-shadow:0 0 0 4px rgba(99,102,241,.15);outline:none}
-.field.invalid input,.field.invalid select,.field.invalid textarea{border-color:#dc2626;background:#fef2f2;box-shadow:0 0 0 3px rgba(220,38,38,.12)}
-.hint{margin-top:6px;font-size:13px;color:#64748b;line-height:1.6}
-.err{margin-top:7px;font-size:14px;color:#b91c1c;font-weight:600;line-height:1.6;display:none}
+label.l{display:block;margin-bottom:8px;font-weight:600;font-size:15px;color:var(--mute)}
+input[type=text],select,textarea{width:100%;padding:13px 15px;background:var(--field);color:var(--ink);border:1.5px solid var(--line);border-radius:14px;font:inherit;font-size:18px;min-height:54px;appearance:none;-webkit-appearance:none}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1.5l6 6 6-6' fill='none' stroke='%2364657f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:42px}
+textarea{min-height:84px;resize:vertical}
+input.num{letter-spacing:.5px}
+input.code{text-transform:uppercase;letter-spacing:1.5px}
+input:focus,select:focus,textarea:focus{background:#fff;border-color:var(--brand);box-shadow:0 0 0 4px rgba(67,56,202,.14);outline:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:11px 18px;border-radius:99px;border:1.5px solid var(--line);background:#fff;font:inherit;font-size:17px;color:var(--ink);cursor:pointer;min-height:50px;transition:background .12s,border-color .12s}
+.chip.on{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:600}
+.chip:focus-visible,.primary:focus-visible,.secondary:focus-visible,summary:focus-visible{outline:3px solid rgba(67,56,202,.45);outline-offset:2px}
+.consent{display:flex;gap:12px;align-items:center;padding:14px 16px;border:1.5px solid var(--line);border-radius:14px;background:var(--field);font-size:17px;font-weight:600;cursor:pointer;min-height:56px}
+.consent input{width:26px;height:26px;accent-color:var(--brand);flex:none}
+.field.invalid input[type=text],.field.invalid select,.field.invalid textarea,.field.invalid .consent{border-color:var(--bad);background:var(--badbg)}
+.field.invalid .chip{border-color:#f3a3b7}
+.err{display:none;margin-top:7px;font-size:15px;font-weight:600;color:var(--bad)}
 .field.invalid .err{display:block}
-.note{margin-top:6px;font-size:13px;color:#3730a3;background:#eef2ff;border-radius:10px;padding:8px 12px;line-height:1.6}
-.summary{background:#fef2f2;border:1.5px solid #fecaca;border-radius:14px;padding:14px 16px;margin-bottom:18px;color:#991b1b;font-size:14px;line-height:1.7}
-.summary b{display:block;margin-bottom:6px;font-size:15px}
-.summary a{color:#b91c1c;text-decoration:underline;display:block;margin:2px 0;cursor:pointer}
-button{font:inherit}
-.primary{width:100%;min-height:54px;margin-top:8px;border:0;border-radius:14px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#4f46e5,#9333ea,#db2777)}
+
+details{margin:2px 0 22px;border-radius:16px;background:var(--field);padding:0 16px}
+summary{padding:15px 0;font-weight:600;color:var(--brand);cursor:pointer;font-size:16px;list-style:none}
+summary::-webkit-details-marker{display:none}
+details[open] summary{border-bottom:1px solid var(--line);margin-bottom:16px}
+details .field input,details .field select,details .field textarea{background:#fff}
+
+.savebar{position:sticky;bottom:0;margin:0 -18px -22px;padding:16px 18px calc(16px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(255,255,255,0),#fff 40%);border-radius:0 0 24px 24px}
+.primary{width:100%;min-height:58px;border:0;border-radius:16px;color:#fff;font:inherit;font-size:19px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 6px 16px rgba(67,56,202,.3)}
 .primary:disabled{opacity:.6;cursor:wait}
-.secondary{width:100%;min-height:50px;margin-top:10px;border:0;border-radius:14px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;background:#0f766e}
+.secondary{width:100%;min-height:56px;margin-top:16px;border:0;border-radius:16px;color:#fff;font:inherit;font-size:18px;font-weight:700;cursor:pointer;background:var(--ok)}
 .center{text-align:center}
-.big{font-size:44px;margin:0 0 6px}
+.big{font-size:56px;line-height:1.2}
+h2{margin:6px 0 6px;font-size:22px}
+.sub{color:var(--mute);margin:0}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <main class="wrap">
-  <header class="card hero">
-    <div class="badge" aria-hidden="true">👨‍👩‍👧</div>
-    <h1>कुटुंबातील सदस्याची नोंद</h1>
-    <p class="sub">प्रत्येक सदस्यासाठी हा फॉर्म एकदा भरा. पहिली नोंद कुटुंब प्रमुखाची असते. चूक झाल्यास येथेच दुरुस्त करता येते — तुम्ही भरलेली माहिती हरवणार नाही.</p>
-    <div id="progress" class="progress" hidden></div>
-  </header>
+  <div class="top">
+    <div class="row"><h1 id="title">सदस्याची नोंद</h1><span id="headTag" class="head-pill" hidden>👑 प्रमुख</span></div>
+    <div class="dots" id="dots" hidden></div>
+  </div>
   <div id="banner" class="banner" role="status" aria-live="polite" hidden></div>
   <section id="fatal" class="card center" hidden></section>
-  <section id="loading" class="card center">कुटुंबाची माहिती तपासत आहे…</section>
+  <section id="loading" class="card center">थांबा…</section>
   <form id="form" class="card" novalidate autocomplete="off" hidden>
-    <div id="summary" class="summary" role="alert" hidden></div>
     <div id="fields"></div>
-    <button type="submit" id="submitBtn" class="primary">सदस्याची नोंद जतन करा</button>
+    <div class="savebar"><button type="submit" id="submitBtn" class="primary">जतन करा</button></div>
   </form>
   <section id="done" class="card center" hidden></section>
-  <noscript><div class="card">हा फॉर्म वापरण्यासाठी ब्राउझरमध्ये JavaScript चालू असणे आवश्यक आहे.</div></noscript>
+  <noscript><div class="card">JavaScript चालू करा.</div></noscript>
 </main>
 <script>
 'use strict';
 /* ============ CONFIG ============ */
 const API_BASE = 'https://office.maulikatke.in/webhook';
 const START_URL = 'https://survey.maulikatke.in/';
+/* मतदार ओळखपत्र या वयापासून सक्तीचे (१८ वर्षांखालील मुलांना कार्ड नसते). सर्वांसाठी सक्तीचे करायचे असल्यास 0 करा. */
+const VOTER_MIN_AGE = 18;
 
-/* PURE:START  (validation rules — mirrored exactly by the n8n server-side validator) */
+/* PURE:START  (rules mirrored by the n8n server-side validator) */
 const HEAD_YES = 'होय — कुटुंब प्रमुख', HEAD_NO = 'नाही', CONSENT_YES = 'होय, संमती आहे';
+const CHILD = 'लहान मुलासाठी लागू नाही';
 const OPT = {
   gender_mr: ['पुरुष', 'महिला', 'इतर'],
-  education_level: ['शिक्षण नाही', 'इयत्ता ८ वी', 'इयत्ता १० वी', 'इयत्ता १२ वी', 'पदवी', 'पदव्युत्तर', 'इतर / सुरू आहे', 'लहान मुलासाठी लागू नाही'],
-  marital_status: ['विवाहित', 'अविवाहित', 'विधवा / विधुर', 'घटस्फोटित', 'वेगळे राहतात', 'सांगू इच्छित नाही', 'लहान मुलासाठी लागू नाही'],
+  education_level: ['शिक्षण नाही', 'इयत्ता ८ वी', 'इयत्ता १० वी', 'इयत्ता १२ वी', 'पदवी', 'पदव्युत्तर', 'इतर / सुरू आहे', CHILD],
+  marital_status: ['विवाहित', 'अविवाहित', 'विधवा / विधुर', 'घटस्फोटित', 'वेगळे राहतात', 'सांगू इच्छित नाही', CHILD],
   is_household_head: [HEAD_YES, HEAD_NO],
   relationship_to_head: ['पती / पत्नी', 'मुलगा / मुलगी', 'वडील / आई', 'भाऊ / बहीण', 'इतर नातेवाईक', 'इतर'],
   religion: ['हिंदू', 'मुस्लिम', 'बौद्ध', 'जैन', 'ख्रिश्चन', 'शीख', 'इतर', 'सांगू इच्छित नाही'],
@@ -102,65 +119,65 @@ function validate(v, ctx) {
   const e = {};
   const c = ctx || {};
   const name = clean(v.full_name);
-  if (name.length < 2 || name.length > 100) e.full_name = 'सदस्याचे नाव २ ते १०० अक्षरांत लिहा.';
+  if (name.length < 2 || name.length > 100) e.full_name = 'नाव लिहा';
   else if (c.registered === 0 && c.headName && name.toLowerCase() !== clean(c.headName).toLowerCase()) {
-    e.full_name = 'पहिली नोंद कुटुंब प्रमुखाची आहे. नाव कुटुंब नोंदणीतील नावाशी (' + clean(c.headName) + ') अगदी तसेच असावे.';
+    e.full_name = 'नाव "' + clean(c.headName) + '" असेच लिहा';
   }
-  if (!OPT.gender_mr.includes(v.gender_mr)) e.gender_mr = 'कृपया लिंग निवडा.';
+  if (!OPT.gender_mr.includes(v.gender_mr)) e.gender_mr = 'निवडा';
   const ageT = toAscii(clean(v.age));
-  if (ageT === '') e.age = 'वय लिहा.';
-  else if (!/^\d{1,3}$/.test(ageT) || Number(ageT) > 120) e.age = 'वय ० ते १२० दरम्यान पूर्ण अंकात असावे. उदा. ३५';
-  if (!OPT.education_level.includes(v.education_level)) e.education_level = 'कृपया शैक्षणिक पात्रता निवडा.';
-  if (!OPT.marital_status.includes(v.marital_status)) e.marital_status = 'कृपया वैवाहिक स्थिती निवडा.';
+  let ageN = null;
+  if (ageT === '') e.age = 'वय लिहा';
+  else if (!/^\d{1,3}$/.test(ageT) || Number(ageT) > 120) e.age = 'वय ० ते १२० असावे';
+  else ageN = Number(ageT);
+  if (!OPT.education_level.includes(v.education_level)) e.education_level = 'निवडा';
+  if (!OPT.marital_status.includes(v.marital_status)) e.marital_status = 'निवडा';
   let head = v.is_household_head;
   if (c.registered === 0) head = HEAD_YES; else if (c.registered > 0) head = HEAD_NO;
-  if (!OPT.is_household_head.includes(head)) e.is_household_head = 'हा सदस्य कुटुंब प्रमुख आहे का ते निवडा.';
-  if (clean(v.relationship_to_head) && !OPT.relationship_to_head.includes(v.relationship_to_head)) e.relationship_to_head = 'नात्याचा पर्याय योग्य नाही.';
+  if (!OPT.is_household_head.includes(head)) e.is_household_head = 'निवडा';
+  if (clean(v.relationship_to_head) && !OPT.relationship_to_head.includes(v.relationship_to_head)) e.relationship_to_head = 'पर्याय चुकीचा';
+  /* मोबाईल: सक्तीचा */
   const mob = normMobile(v.mobile_no);
-  if (mob && !/^[6-9]\d{9}$/.test(mob)) e.mobile_no = 'मोबाईल क्रमांक ६, ७, ८ किंवा ९ ने सुरू होणारा १० अंकी असावा. उदा. ९८२२३४५६७८. माहिती नसल्यास रिकामे ठेवा.';
+  if (!mob) e.mobile_no = 'मोबाईल नंबर लिहा';
+  else if (!/^[6-9]\d{9}$/.test(mob)) e.mobile_no = '१० अंकी नंबर लिहा';
+  /* मतदार ओळखपत्र: सक्तीचे (VOTER_MIN_AGE पासून) */
   const vid = normVoter(v.voter_id);
-  if (vid) {
-    if (/^[A-Z]{3}\d{7}$/.test(vid)) { /* valid EPIC format */ }
-    else if (/^[A-Z]{5}\d{4}[A-Z]$/.test(vid)) e.voter_id = 'हा क्रमांक PAN कार्डसारखा दिसतो. येथे मतदार ओळखपत्र (EPIC) क्रमांक हवा: ३ अक्षरे + ७ अंक, उदा. ABC1234567. EPIC क्रमांक माहीत नसल्यास हा रकाना रिकामा ठेवा.';
-    else if (/^\d{12}$/.test(vid)) e.voter_id = 'हा क्रमांक आधार क्रमांकासारखा दिसतो. येथे मतदार ओळखपत्र (EPIC) क्रमांक हवा: ३ अक्षरे + ७ अंक, उदा. ABC1234567. माहीत नसल्यास रिकामे ठेवा.';
-    else e.voter_id = 'मतदार ओळखपत्र क्रमांक ३ अक्षरे + ७ अंक असा असावा, उदा. ABC1234567. माहीत नसल्यास रिकामे ठेवा.';
-  }
-  [['religion', 'धर्माचा'], ['caste_category', 'जात प्रवर्गाचा'], ['profession', 'व्यवसायाचा'], ['needs_subsidy', 'मदतीच्या गरजेचा']].forEach(([k, t]) => {
-    if (clean(v[k]) && !OPT[k].includes(v[k])) e[k] = t + ' पर्याय योग्य नाही.';
+  const voterNeeded = !(ageN !== null && ageN < VOTER_MIN_AGE);
+  if (!vid) { if (voterNeeded) e.voter_id = 'मतदार कार्ड नंबर लिहा'; }
+  else if (/^[A-Z]{3}\d{7}$/.test(vid)) { /* valid EPIC */ }
+  else if (/^[A-Z]{5}\d{4}[A-Z]$/.test(vid)) e.voter_id = 'हा PAN आहे. मतदार कार्ड नंबर लिहा (ABC1234567)';
+  else if (/^\d{12}$/.test(vid)) e.voter_id = 'हा आधार आहे. मतदार कार्ड नंबर लिहा (ABC1234567)';
+  else e.voter_id = 'ABC1234567 असा हवा (३ अक्षरे + ७ अंक)';
+  [['religion', 'धर्म'], ['caste_category', 'जात प्रवर्ग'], ['profession', 'व्यवसाय'], ['needs_subsidy', 'मदत']].forEach(([k, t]) => {
+    if (clean(v[k]) && !OPT[k].includes(v[k])) e[k] = t + ': पर्याय चुकीचा';
   });
-  if (clean(v.caste_name).length > 100) e.caste_name = 'जात / पोटजात १०० अक्षरांपेक्षा कमी लिहा.';
-  if (v.member_consent !== CONSENT_YES) e.member_consent = 'सदस्याची किंवा अल्पवयीन असल्यास पालक / संरक्षकाची संमती आवश्यक आहे.';
-  if (String(v.member_notes || '').trim().length > 2000) e.member_notes = 'नोंद २,००० अक्षरांपेक्षा कमी ठेवा.';
+  if (clean(v.caste_name).length > 100) e.caste_name = 'खूप मोठे आहे';
+  if (v.member_consent !== CONSENT_YES) e.member_consent = 'संमती द्या';
+  if (String(v.member_notes || '').trim().length > 2000) e.member_notes = 'खूप मोठे आहे';
   return e;
 }
 /* PURE:END */
 
-/* ============ FIELD DEFINITIONS ============ */
-const SECTIONS = [
-  { title: '१. मूलभूत माहिती', fields: [
-    { name: 'full_name', label: 'सदस्याचे पूर्ण नाव', type: 'text', required: true, placeholder: 'पूर्ण नाव लिहा' },
-    { name: 'gender_mr', label: 'लिंग', type: 'select', required: true },
-    { name: 'age', label: 'वय (वर्षे)', type: 'text', required: true, placeholder: 'पूर्ण वर्षे', inputmode: 'numeric' } ] },
-  { title: '२. शिक्षण व वैवाहिक स्थिती', fields: [
-    { name: 'education_level', label: 'शैक्षणिक पात्रता', type: 'select', required: true },
-    { name: 'marital_status', label: 'वैवाहिक स्थिती', type: 'select', required: true } ] },
-  { title: '३. कुटुंबातील स्थान', fields: [
-    { name: 'is_household_head', label: 'हा सदस्य कुटुंब प्रमुख आहे का?', type: 'select', required: true },
-    { name: 'relationship_to_head', label: 'कुटुंब प्रमुखाशी नाते (ऐच्छिक)', type: 'select' } ] },
-  { title: '४. संपर्क व ओळख (ऐच्छिक)', fields: [
-    { name: 'mobile_no', label: 'मोबाईल क्रमांक (ऐच्छिक)', type: 'text', placeholder: '१० अंकी क्रमांक', inputmode: 'tel', hint: '१० अंकी, उदा. ९८२२३४५६७८. +91 लिहिले तरी चालेल.' },
-    { name: 'voter_id', label: 'मतदार ओळखपत्र (EPIC) क्रमांक (ऐच्छिक)', type: 'text', placeholder: 'उदा. ABC1234567', hint: '३ अक्षरे + ७ अंक. माहीत नसल्यास रिकामे ठेवा. PAN / आधार क्रमांक येथे लिहू नका.' } ] },
-  { title: '५. इतर माहिती (ऐच्छिक)', fields: [
-    { name: 'religion', label: 'धर्म (ऐच्छिक)', type: 'select' },
-    { name: 'caste_category', label: 'जात प्रवर्ग (ऐच्छिक)', type: 'select' },
-    { name: 'caste_name', label: 'जात / पोटजात (ऐच्छिक)', type: 'text', placeholder: 'व्यक्ती सांगण्यास इच्छुक असल्यास' },
-    { name: 'profession', label: 'व्यवसाय (ऐच्छिक)', type: 'select' },
-    { name: 'needs_subsidy', label: 'शासकीय योजनेचा लाभ / मदत आवश्यक आहे का? (ऐच्छिक)', type: 'select' } ] },
-  { title: '६. संमती व नोंद', fields: [
-    { name: 'member_consent', label: 'या सदस्याची माहिती नोंदवण्यास संमती आहे का?', type: 'select', required: true },
-    { name: 'member_notes', label: 'अतिरिक्त नोंद (ऐच्छिक)', type: 'textarea', placeholder: 'गरज असल्यासच लिहा' } ] }
+/* ============ FIELDS ============ */
+/* रचना: सर्वात आवश्यक आधी. 'more' = आणखी (ऐच्छिक) विभागात. */
+const FIELDS = [
+  { name: 'full_name', label: 'पूर्ण नाव', type: 'text', placeholder: 'नाव' },
+  { name: 'is_household_head', label: 'कुटुंब प्रमुख आहेत का?', type: 'chips' },
+  { name: 'relationship_to_head', label: 'प्रमुखाशी नाते', type: 'chips', opt: true },
+  { name: 'gender_mr', label: 'लिंग', type: 'chips' },
+  { name: 'age', label: 'वय', type: 'text', placeholder: 'वर्षे', inputmode: 'numeric', cls: 'num' },
+  { name: 'mobile_no', label: 'मोबाईल नंबर', type: 'text', placeholder: '९८२२३४५६७८', inputmode: 'tel', cls: 'num' },
+  { name: 'voter_id', label: 'मतदार कार्ड नंबर', type: 'text', placeholder: 'ABC1234567', cls: 'code', autocap: true },
+  { name: 'education_level', label: 'शिक्षण', type: 'chips' },
+  { name: 'marital_status', label: 'वैवाहिक स्थिती', type: 'chips' },
+  { name: 'religion', label: 'धर्म', type: 'select', more: true },
+  { name: 'caste_category', label: 'जात प्रवर्ग', type: 'select', more: true },
+  { name: 'caste_name', label: 'जात / पोटजात', type: 'text', more: true },
+  { name: 'profession', label: 'व्यवसाय', type: 'select', more: true },
+  { name: 'needs_subsidy', label: 'शासकीय मदत हवी?', type: 'chips', opt: true, more: true },
+  { name: 'member_notes', label: 'नोंद', type: 'textarea', more: true },
+  { name: 'member_consent', label: '', type: 'consent' }
 ];
-const FIELD_NAMES = SECTIONS.flatMap((s) => s.fields.map((f) => f.name));
+const FIELD_NAMES = FIELDS.map((f) => f.name);
 
 /* ============ STATE ============ */
 const $ = (id) => document.getElementById(id);
@@ -170,192 +187,213 @@ const TOKEN = clean(qs.get('assignment_token')).toLowerCase();
 const ctx = { registered: null, declared: null, headName: '' };
 const st = { submitting: false };
 const DRAFT_KEY = 'fam_member_draft_' + HOUSEHOLD;
+const getEl = (n) => $('in_' + n);
+const dev = (n) => String(n).replace(/\d/g, (d) => DEVA[d]);
 
 /* ============ RENDER ============ */
+function mkErr(name) { const er = document.createElement('div'); er.className = 'err'; er.id = 'err_' + name; er.setAttribute('role', 'alert'); return er; }
+function chipText(name, t) {
+  if (name === 'is_household_head') return t === HEAD_YES ? 'होय' : 'नाही';
+  return t;
+}
 function buildForm() {
   const host = $('fields');
   host.innerHTML = '';
-  SECTIONS.forEach((sec) => {
-    const wrap = document.createElement('div');
-    wrap.className = 'section';
-    const h = document.createElement('h2');
-    h.textContent = sec.title;
-    wrap.appendChild(h);
-    sec.fields.forEach((f) => {
-      const box = document.createElement('div');
-      box.className = 'field';
-      box.id = 'field_' + f.name;
-      const lab = document.createElement('label');
-      lab.htmlFor = 'in_' + f.name;
-      lab.textContent = f.label;
-      if (f.required) { const r = document.createElement('span'); r.className = 'req'; r.textContent = ' *'; lab.appendChild(r); }
+  const more = document.createElement('details');
+  more.id = 'more';
+  const sum = document.createElement('summary'); sum.textContent = '＋ आणखी माहिती (ऐच्छिक)';
+  more.appendChild(sum);
+  let consentBox = null;
+  FIELDS.forEach((f) => {
+    const box = document.createElement('div');
+    box.className = 'field'; box.id = 'field_' + f.name;
+    const hiddenInput = document.createElement('input');
+    hiddenInput.type = (f.type === 'chips' || f.type === 'consent') ? 'hidden' : 'text';
+    let ctl = hiddenInput;
+    if (f.type !== 'consent') {
+      const lab = document.createElement('label'); lab.className = 'l'; lab.htmlFor = 'in_' + f.name; lab.textContent = f.label;
       box.appendChild(lab);
-      let ctl;
-      if (f.type === 'select') {
-        ctl = document.createElement('select');
-        const o0 = document.createElement('option'); o0.value = ''; o0.textContent = '— निवडा —'; ctl.appendChild(o0);
-        (OPT[f.name] || []).forEach((t) => { const o = document.createElement('option'); o.value = t; o.textContent = t; ctl.appendChild(o); });
-      } else if (f.type === 'textarea') {
-        ctl = document.createElement('textarea');
-      } else {
-        ctl = document.createElement('input'); ctl.type = 'text';
-      }
-      ctl.id = 'in_' + f.name; ctl.name = f.name;
-      if (f.placeholder) ctl.placeholder = f.placeholder;
-      if (f.inputmode) ctl.setAttribute('inputmode', f.inputmode);
-      ctl.setAttribute('autocomplete', 'off');
-      ctl.setAttribute('aria-describedby', 'err_' + f.name);
+    }
+    if (f.type === 'select') {
+      ctl = document.createElement('select');
+      const o0 = document.createElement('option'); o0.value = ''; o0.textContent = 'निवडा'; ctl.appendChild(o0);
+      (OPT[f.name] || []).forEach((t) => { const o = document.createElement('option'); o.value = t; o.textContent = t; ctl.appendChild(o); });
+    } else if (f.type === 'textarea') {
+      ctl = document.createElement('textarea');
+    }
+    ctl.id = 'in_' + f.name; ctl.name = f.name;
+    if (f.placeholder) ctl.placeholder = f.placeholder;
+    if (f.inputmode) ctl.setAttribute('inputmode', f.inputmode);
+    if (f.cls) ctl.classList.add(f.cls);
+    if (f.autocap) { ctl.setAttribute('autocapitalize', 'characters'); ctl.setAttribute('spellcheck', 'false'); }
+    ctl.setAttribute('autocomplete', 'off');
+    if (f.type === 'chips') {
       box.appendChild(ctl);
-      if (f.hint) { const hn = document.createElement('div'); hn.className = 'hint'; hn.textContent = f.hint; box.appendChild(hn); }
-      const note = document.createElement('div'); note.className = 'note'; note.id = 'note_' + f.name; note.hidden = true; box.appendChild(note);
-      const er = document.createElement('div'); er.className = 'err'; er.id = 'err_' + f.name; er.setAttribute('role', 'alert'); box.appendChild(er);
-      wrap.appendChild(box);
-      ctl.addEventListener('input', () => { clearError(f.name); saveDraft(); if (f.name === 'is_household_head') applyLocks(); });
-      ctl.addEventListener('change', () => { saveDraft(); if (f.name === 'is_household_head') applyLocks(); });
-      ctl.addEventListener('blur', () => { normaliseField(f.name); validateOne(f.name); });
-    });
-    host.appendChild(wrap);
+      const wrap = document.createElement('div'); wrap.className = 'chips'; wrap.id = 'chips_' + f.name;
+      (OPT[f.name] || []).filter((t) => t !== CHILD).forEach((t) => {
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.dataset.v = t;
+        b.textContent = chipText(f.name, t);
+        b.addEventListener('click', () => {
+          setValue(f.name, (f.opt && ctl.value === t) ? '' : t);
+          clearError(f.name);
+          if (f.name === 'is_household_head') applyLocks();
+          saveDraft();
+        });
+        wrap.appendChild(b);
+      });
+      box.appendChild(wrap);
+    } else if (f.type === 'consent') {
+      box.appendChild(ctl);
+      const lab = document.createElement('label'); lab.className = 'consent';
+      const cb = document.createElement('input'); cb.type = 'checkbox'; cb.id = 'chk_consent';
+      const sp = document.createElement('span'); sp.textContent = 'संमती आहे';
+      lab.appendChild(cb); lab.appendChild(sp); box.appendChild(lab);
+      cb.addEventListener('change', () => { setValue('member_consent', cb.checked ? CONSENT_YES : ''); clearError('member_consent'); saveDraft(); });
+      consentBox = box;
+    } else {
+      box.appendChild(ctl);
+      ctl.addEventListener('input', () => { clearError(f.name); saveDraft(); });
+      ctl.addEventListener('change', () => { saveDraft(); if (f.name === 'age') ageRules(); });
+      ctl.addEventListener('blur', (ev) => {
+        normaliseField(f.name);
+        if (f.name === 'age') ageRules();
+        const t = ev.relatedTarget;
+        if (t && /^(INPUT|SELECT|TEXTAREA)$/.test(t.tagName)) validateOne(f.name);
+      });
+    }
+    box.appendChild(mkErr(f.name));
+    if (f.type === 'consent') return;
+    (f.more ? more : host).appendChild(box);
   });
+  host.appendChild(more);
+  host.appendChild(consentBox);
 }
 
-function getEl(name) { return $('in_' + name); }
-function readValues() {
-  const v = {};
-  FIELD_NAMES.forEach((n) => { v[n] = getEl(n).value; });
-  return v;
+function setValue(name, val) {
+  const el = getEl(name); if (!el) return;
+  el.value = val;
+  const wrap = $('chips_' + name);
+  if (wrap) wrap.querySelectorAll('.chip').forEach((b) => b.classList.toggle('on', b.dataset.v === val));
+  if (name === 'member_consent') $('chk_consent').checked = (val === CONSENT_YES);
 }
-function writeValues(v) {
-  FIELD_NAMES.forEach((n) => { if (v && v[n] !== undefined && v[n] !== null) getEl(n).value = v[n]; });
-}
+function readValues() { const v = {}; FIELD_NAMES.forEach((n) => { v[n] = getEl(n).value; }); return v; }
+function writeValues(v) { FIELD_NAMES.forEach((n) => { if (v && v[n] !== undefined && v[n] !== null) setValue(n, v[n]); }); }
 function normaliseField(name) {
-  const el = getEl(name);
-  if (!el) return;
+  const el = getEl(name); if (!el || el.type === 'hidden') return;
   if (name === 'age') el.value = toAscii(clean(el.value));
   else if (name === 'mobile_no') el.value = normMobile(el.value);
   else if (name === 'voter_id') el.value = normVoter(el.value);
   else if (name === 'full_name' || name === 'caste_name') el.value = clean(el.value);
 }
 
-/* ============ ERRORS ============ */
-function setError(name, msg) {
-  const box = $('field_' + name), er = $('err_' + name);
-  if (!box || !er) return;
-  er.textContent = msg;
-  box.classList.add('invalid');
-  getEl(name).setAttribute('aria-invalid', 'true');
-}
-function clearError(name) {
-  const box = $('field_' + name), er = $('err_' + name);
-  if (!box) return;
-  box.classList.remove('invalid');
-  if (er) er.textContent = '';
-  const el = getEl(name); if (el) el.removeAttribute('aria-invalid');
-}
-function clearAllErrors() { FIELD_NAMES.forEach(clearError); $('summary').hidden = true; $('summary').innerHTML = ''; }
-function validateOne(name) {
-  const e = validate(readValues(), ctx);
-  if (e[name]) setError(name, e[name]); else clearError(name);
-}
-function showErrors(errs, headline) {
-  const names = FIELD_NAMES.filter((n) => errs[n]);
-  const other = errs.form || '';
-  names.forEach((n) => setError(n, errs[n]));
-  const sum = $('summary');
-  sum.innerHTML = '';
-  const b = document.createElement('b');
-  b.textContent = headline || 'माहिती जतन झालेली नाही. कृपया खालील चुका येथेच दुरुस्त करा:';
-  sum.appendChild(b);
-  names.forEach((n, i) => {
-    const a = document.createElement('a');
-    const label = SECTIONS.flatMap((s) => s.fields).find((f) => f.name === n).label.replace(/\s*\(ऐच्छिक\)/, '');
-    a.textContent = (i + 1) + '. ' + label + ' — ' + errs[n].split('. ')[0].replace(/\.$/, '');
-    a.addEventListener('click', () => focusField(n));
-    sum.appendChild(a);
+/* वयानुसार रकाने लपवा: ≤१२ → शिक्षण/वैवाहिक आपोआप "लागू नाही"; <१८ → मतदार कार्ड लपवा */
+function ageRules() {
+  const a = toAscii(clean(getEl('age').value));
+  const n = /^\d{1,3}$/.test(a) ? Number(a) : null;
+  const kid = n !== null && n <= 12;
+  ['education_level', 'marital_status'].forEach((k) => {
+    const box = $('field_' + k);
+    if (kid) { setValue(k, CHILD); box.hidden = true; clearError(k); }
+    else { if (getEl(k).value === CHILD) setValue(k, ''); box.hidden = false; }
   });
-  if (other) { const p = document.createElement('div'); p.textContent = other; sum.appendChild(p); }
-  sum.hidden = false;
-  if (names.length) focusField(names[0]); else sum.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-function focusField(name) {
-  const box = $('field_' + name), el = getEl(name);
-  if (box && box.hidden) return;
-  box.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  try { el.focus({ preventScroll: true }); } catch (e) { /* ignore */ }
+  const young = n !== null && n < VOTER_MIN_AGE;
+  if (young) { setValue('voter_id', ''); clearError('voter_id'); }
+  $('field_voter_id').hidden = young;
+  saveDraft();
 }
 
-/* ============ LOCKS (first member = head) ============ */
+/* ============ ERRORS ============ */
+function setError(name, msg) {
+  const box = $('field_' + name), er = $('err_' + name); if (!box || !er) return;
+  er.textContent = msg; box.classList.add('invalid');
+  if (FIELDS.find((f) => f.name === name).more) $('more').open = true;
+}
+function clearError(name) {
+  const box = $('field_' + name), er = $('err_' + name); if (!box) return;
+  box.classList.remove('invalid'); if (er) er.textContent = '';
+}
+function clearAllErrors() { FIELD_NAMES.forEach(clearError); }
+function validateOne(name) { const e = validate(readValues(), ctx); if (e[name]) setError(name, e[name]); else clearError(name); }
+function showErrors(errs, headline) {
+  const names = FIELD_NAMES.filter((n) => errs[n]);
+  names.forEach((n) => setError(n, errs[n]));
+  const extra = errs.form ? ('\n' + errs.form) : '';
+  if (names.length || extra) banner('error', '⚠️ ' + (names.length ? 'लाल रंगातील चुका दुरुस्त करा' : (headline || 'जतन झाले नाही')) + extra, false);
+  if (names.length) focusField(names[0]);
+}
+function focusField(name) {
+  const box = $('field_' + name); if (!box || box.hidden) return;
+  box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  const el = getEl(name); if (el && el.type !== 'hidden') { try { el.focus({ preventScroll: true }); } catch (e) { /* ignore */ } }
+}
+
+/* ============ HEAD LOCK ============ */
 function applyLocks() {
-  const headEl = getEl('is_household_head'), headBox = $('field_is_household_head');
-  const relBox = $('field_relationship_to_head'), note = $('note_is_household_head');
-  note.hidden = true;
+  const headBox = $('field_is_household_head'), relBox = $('field_relationship_to_head'), tag = $('headTag');
+  tag.hidden = true;
   if (ctx.registered === 0) {
-    headEl.value = HEAD_YES; headEl.disabled = true; headBox.hidden = false;
-    note.textContent = 'या कुटुंबाची ही पहिली नोंद आहे, म्हणून ही नोंद कुटुंब प्रमुखाची असणे आवश्यक आहे.'; note.hidden = false;
-    relBox.hidden = true; getEl('relationship_to_head').value = '';
+    setValue('is_household_head', HEAD_YES); headBox.hidden = true; relBox.hidden = true; setValue('relationship_to_head', '');
+    tag.hidden = false;
     if (!clean(getEl('full_name').value) && ctx.headName) getEl('full_name').value = ctx.headName;
   } else if (ctx.registered > 0) {
-    headEl.value = HEAD_NO; headEl.disabled = false; headBox.hidden = true;
-    relBox.hidden = false;
+    setValue('is_household_head', HEAD_NO); headBox.hidden = true; relBox.hidden = false;
   } else {
-    headEl.disabled = false; headBox.hidden = false;
-    relBox.hidden = (headEl.value === HEAD_YES);
-    if (headEl.value === HEAD_YES) getEl('relationship_to_head').value = '';
+    headBox.hidden = false;
+    const isHead = getEl('is_household_head').value === HEAD_YES;
+    relBox.hidden = isHead; if (isHead) setValue('relationship_to_head', '');
+    tag.hidden = !isHead;
   }
 }
 
-/* ============ DRAFT (kept only for this browser tab) ============ */
-function saveDraft() {
-  try { sessionStorage.setItem(DRAFT_KEY, JSON.stringify(readValues())); } catch (e) { /* ignore */ }
-}
-function loadDraft() {
-  try { const t = sessionStorage.getItem(DRAFT_KEY); return t ? JSON.parse(t) : null; } catch (e) { return null; }
-}
+/* ============ DRAFT ============ */
+function saveDraft() { try { sessionStorage.setItem(DRAFT_KEY, JSON.stringify(readValues())); } catch (e) { /* ignore */ } }
+function loadDraft() { try { const t = sessionStorage.getItem(DRAFT_KEY); return t ? JSON.parse(t) : null; } catch (e) { return null; } }
 function clearDraft() { try { sessionStorage.removeItem(DRAFT_KEY); } catch (e) { /* ignore */ } }
 
 /* ============ UI HELPERS ============ */
-function banner(kind, text) {
-  const b = $('banner');
-  b.className = 'banner ' + kind;
-  b.textContent = text;
-  b.hidden = false;
-  b.scrollIntoView({ behavior: 'smooth', block: 'start' });
+let bannerTimer = null;
+function banner(kind, text, scroll) {
+  const b = $('banner'); b.className = 'banner ' + kind; b.textContent = text; b.hidden = false;
+  clearTimeout(bannerTimer);
+  if (kind === 'success') bannerTimer = setTimeout(hideBanner, 3500);
+  if (scroll !== false) window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function hideBanner() { $('banner').hidden = true; }
 function setProgress() {
-  const p = $('progress');
-  if (ctx.registered === null) { p.hidden = true; return; }
-  p.hidden = false;
-  p.textContent = 'कुटुंब कोड ' + HOUSEHOLD + ' · नोंदवलेले सदस्य ' + ctx.registered + ' / ' + (ctx.declared || '—');
-  p.className = 'progress' + (ctx.declared && ctx.registered >= ctx.declared ? ' done' : '');
+  const d = $('dots'), t = $('title');
+  if (ctx.registered === null) { d.hidden = true; t.textContent = 'सदस्याची नोंद'; return; }
+  const total = ctx.declared || 0;
+  if (total && ctx.registered >= total) { t.textContent = 'पूर्ण'; d.hidden = true; return; }
+  t.innerHTML = '';
+  t.appendChild(document.createTextNode('सदस्य ' + dev(ctx.registered + 1)));
+  if (total) { const s = document.createElement('small'); s.textContent = ' / ' + dev(total); t.appendChild(s); }
+  d.innerHTML = '';
+  if (total && total <= 20) {
+    for (let i = 0; i < total; i++) { const x = document.createElement('i'); x.className = i < ctx.registered ? 'done' : (i === ctx.registered ? 'now' : ''); d.appendChild(x); }
+    d.hidden = false;
+  } else d.hidden = true;
 }
 function fatal(title, text) {
   $('loading').hidden = true; $('form').hidden = true;
-  const f = $('fatal');
-  f.innerHTML = '';
-  const h = document.createElement('h2'); h.textContent = title; h.style.color = '#b91c1c';
+  const f = $('fatal'); f.innerHTML = '';
+  const h = document.createElement('h2'); h.textContent = title; h.style.color = '#c81e4b';
   const p = document.createElement('p'); p.className = 'sub'; p.textContent = text;
-  f.appendChild(h); f.appendChild(p);
-  f.hidden = false;
+  f.appendChild(h); f.appendChild(p); f.hidden = false;
 }
 function showDone() {
   $('form').hidden = true; $('loading').hidden = true; hideBanner();
-  const d = $('done');
-  d.innerHTML = '';
+  const d = $('done'); d.innerHTML = '';
   const big = document.createElement('div'); big.className = 'big'; big.textContent = '✅';
-  const h = document.createElement('h2'); h.textContent = 'कुटुंब नोंदणी पूर्ण'; h.style.color = '#0f766e';
-  const p = document.createElement('p'); p.className = 'sub';
-  p.textContent = 'कुटुंब कोड ' + HOUSEHOLD + ' — नोंदवलेले सदस्य ' + ctx.registered + ' / ' + ctx.declared + '. या कुटुंबातील सर्व सदस्यांची नोंद झाली आहे; आणखी सदस्य नोंदवण्याची गरज नाही.';
-  const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'secondary'; btn.textContent = 'पुढील कुटुंबाची नोंद सुरू करा';
+  const h = document.createElement('h2'); h.textContent = 'कुटुंब नोंदणी पूर्ण'; h.style.color = '#0f7a55';
+  const p = document.createElement('p'); p.className = 'sub'; p.textContent = dev(ctx.registered) + ' / ' + dev(ctx.declared) + ' सदस्य';
+  const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'secondary'; btn.textContent = 'पुढील कुटुंब';
   btn.addEventListener('click', () => { window.location.assign(START_URL + '?assignment_token=' + encodeURIComponent(TOKEN)); });
-  d.appendChild(big); d.appendChild(h); d.appendChild(p); d.appendChild(btn);
-  d.hidden = false;
-  setProgress();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  d.appendChild(big); d.appendChild(h); d.appendChild(p); d.appendChild(btn); d.hidden = false;
+  setProgress(); window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function resetForNext() {
-  FIELD_NAMES.forEach((n) => { getEl(n).value = ''; });
-  clearAllErrors(); clearDraft(); applyLocks();
-  const nm = getEl('full_name'); try { nm.focus({ preventScroll: true }); } catch (e) { /* ignore */ }
+  FIELD_NAMES.forEach((n) => setValue(n, ''));
+  clearAllErrors(); clearDraft(); applyLocks(); ageRules(); $('more').open = false;
 }
 
 /* ============ NETWORK ============ */
@@ -365,14 +403,12 @@ async function fetchJson(url, opts, timeoutMs) {
   try {
     const r = await fetch(url, { ...(opts || {}), signal: ctl.signal });
     const txt = await r.text();
-    let j;
-    try { j = JSON.parse(txt); } catch (e) { throw new Error('bad-json'); }
+    let j; try { j = JSON.parse(txt); } catch (e) { throw new Error('bad-json'); }
     return j;
   } finally { clearTimeout(timer); }
 }
 async function fetchStatus() {
-  const u = API_BASE + '/family-member-status?household_code=' + encodeURIComponent(HOUSEHOLD) + '&assignment_token=' + encodeURIComponent(TOKEN);
-  return fetchJson(u, { method: 'GET' }, 15000);
+  return fetchJson(API_BASE + '/family-member-status?household_code=' + encodeURIComponent(HOUSEHOLD) + '&assignment_token=' + encodeURIComponent(TOKEN), { method: 'GET' }, 15000);
 }
 function applyStatus(s) {
   ctx.registered = Number.isFinite(Number(s.registered)) ? Number(s.registered) : null;
@@ -383,11 +419,10 @@ function applyStatus(s) {
 
 /* ============ SUBMIT ============ */
 function onSaved(res) {
-  clearDraft();
-  applyStatus(res);
+  clearDraft(); applyStatus(res);
   if (res.complete === true || (ctx.declared && ctx.registered >= ctx.declared)) { showDone(); return; }
   resetForNext();
-  banner('success', '✅ सदस्याची नोंद यशस्वी झाली.\nनोंदवलेले सदस्य: ' + ctx.registered + ' / ' + ctx.declared + '\nखाली पुढील सदस्याची माहिती भरा.');
+  banner('success', '✅ जतन झाले. पुढील सदस्य भरा.');
 }
 async function reconcileAfterFailure(before) {
   try {
@@ -395,22 +430,23 @@ async function reconcileAfterFailure(before) {
     if (s && s.ok === true) {
       if (before !== null && Number(s.registered) > before) { onSaved({ ...s, complete: Number(s.registered) >= Number(s.declared) }); return; }
       applyStatus(s);
-      banner('warn', 'सर्व्हरवरून उत्तर मिळाले नाही, पण तपासणीनुसार ही नोंद जतन झालेली नाही.\nतुमची माहिती या पानावर सुरक्षित आहे. कृपया "सदस्याची नोंद जतन करा" पुन्हा दाबा.');
+      banner('warn', 'जतन झाले नाही. माहिती सुरक्षित आहे. पुन्हा "जतन करा" दाबा.');
       return;
     }
   } catch (e) { /* fall through */ }
-  banner('error', 'इंटरनेट किंवा सर्व्हरशी संपर्क होऊ शकला नाही. तुमची माहिती या पानावर सुरक्षित आहे — पान बंद करू नका.\nनेटवर्क आल्यावर "सदस्याची नोंद जतन करा" पुन्हा दाबा.');
+  banner('error', 'इंटरनेट नाही. माहिती सुरक्षित आहे, पान बंद करू नका.\nनेट आल्यावर पुन्हा "जतन करा" दाबा.');
 }
 async function onSubmit(ev) {
   ev.preventDefault();
   if (st.submitting) return;
   FIELD_NAMES.forEach(normaliseField);
+  ageRules();
   clearAllErrors(); hideBanner();
   const values = readValues();
   const errs = validate(values, ctx);
   if (Object.keys(errs).length) { showErrors(errs); return; }
   st.submitting = true;
-  const btn = $('submitBtn'); btn.disabled = true; btn.textContent = 'जतन करत आहे…';
+  const btn = $('submitBtn'); btn.disabled = true; btn.textContent = 'जतन होत आहे…';
   const before = ctx.registered;
   const body = new URLSearchParams();
   FIELD_NAMES.forEach((n) => body.set(n, values[n]));
@@ -418,30 +454,24 @@ async function onSubmit(ev) {
   body.set('household_code', HOUSEHOLD);
   body.set('assignment_token', TOKEN);
   let res = null;
-  try {
-    res = await fetchJson(API_BASE + '/family-member-save', { method: 'POST', body }, 30000);
-  } catch (e) {
-    res = null;
-  }
+  try { res = await fetchJson(API_BASE + '/family-member-save', { method: 'POST', body }, 30000); } catch (e) { res = null; }
   try {
     if (res === null) { await reconcileAfterFailure(before); }
     else if (res.ok === true) { onSaved(res); }
     else if (res.errors && Object.keys(res.errors).length) { showErrors(res.errors, res.message); }
     else {
       if (res.registered !== undefined) applyStatus(res);
-      if (res.complete === true) { showDone(); }
-      else banner('error', res.message || 'सदस्याची नोंद जतन झाली नाही. कृपया पर्यवेक्षकाला कळवा.');
+      if (res.complete === true) showDone();
+      else banner('error', res.message || 'जतन झाले नाही. पर्यवेक्षकाला कळवा.');
     }
-  } finally {
-    st.submitting = false; btn.disabled = false; btn.textContent = 'सदस्याची नोंद जतन करा';
-  }
+  } finally { st.submitting = false; btn.disabled = false; btn.textContent = 'जतन करा'; }
 }
 
 /* ============ START ============ */
 async function init() {
   const okHouse = /^FAM-\d{7,}$/.test(HOUSEHOLD);
   const okTok = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(TOKEN);
-  if (!okHouse || !okTok) { fatal('लिंक अपूर्ण किंवा चुकीची आहे', 'कुटुंब कोड किंवा QR टोकन सापडले नाही. कुटुंब नोंदणी पूर्ण झाल्यानंतर मिळालेली लिंक वापरा किंवा पर्यवेक्षकाकडून योग्य लिंक घ्या.'); return; }
+  if (!okHouse || !okTok) { fatal('लिंक चुकीची आहे', 'पर्यवेक्षकाकडून योग्य लिंक घ्या.'); return; }
   buildForm();
   $('form').addEventListener('submit', onSubmit);
   try {
@@ -450,12 +480,17 @@ async function init() {
       applyStatus(s);
       if (s.complete === true || (ctx.declared && ctx.registered >= ctx.declared)) { showDone(); return; }
     } else if (s && s.ok === false) {
-      fatal('कुटुंब किंवा QR वैध नाही', s.message || 'कुटुंब कोड किंवा QR असाइनमेंट वैध नाही / निष्क्रिय आहे. पर्यवेक्षकाकडून योग्य लिंक घ्या.'); return;
+      fatal('कुटुंब किंवा QR वैध नाही', 'पर्यवेक्षकाकडून योग्य लिंक घ्या.'); return;
     }
   } catch (e) { /* status unavailable: form still works, server re-checks everything */ }
   const d = loadDraft();
-  if (d) { writeValues(d); banner('info', 'तुम्ही आधी भरलेली माहिती पुन्हा भरून ठेवली आहे. तपासून जतन करा.'); }
+  if (d) {
+    writeValues(d);
+    if (FIELDS.some((f) => f.more && clean(d[f.name]))) $('more').open = true;
+    banner('info', 'आधी भरलेली माहिती परत आणली.', false);
+  }
   applyLocks();
+  ageRules();
   $('loading').hidden = true; $('form').hidden = false;
 }
 init();
