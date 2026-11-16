@@ -432,7 +432,6 @@
         next.searchParams.set('assignment_token', assignmentToken);
         $('serverMessage').textContent = 'कुटुंबाची नोंद यशस्वी झाली. सदस्य नोंदणी उघडत आहे…';
         $('serverMessage').hidden = false;
-        clearSubmissionKeyAfterConfirmedSave();
         window.location.replace(next.toString());
       } catch (error) {
         // A network failure may happen after the database has saved the household.
